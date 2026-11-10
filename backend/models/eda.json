@@ -1,0 +1,355 @@
+{
+  "dataset": "synthetic_demo",
+  "summary": {
+    "totalReviews": 19364,
+    "genuineCount": 15394,
+    "fakeCount": 3970,
+    "fakePercentage": 20.5,
+    "genuinePercentage": 79.5,
+    "totalReviewers": 10304,
+    "totalProducts": 12,
+    "avgRatingGenuine": 3.65,
+    "avgRatingFake": 3.68,
+    "avgLengthGenuine": 22.4,
+    "avgLengthFake": 19.3,
+    "burstPeriodsIdentified": 3
+  },
+  "classDistribution": [
+    {
+      "label": "Genuine",
+      "count": 15394,
+      "percentage": 79.5,
+      "color": "#10b981"
+    },
+    {
+      "label": "Fake",
+      "count": 3970,
+      "percentage": 20.5,
+      "color": "#ef4444"
+    }
+  ],
+  "ratingDistribution": [
+    {
+      "star": 1,
+      "rating": "1 Star",
+      "genuineCount": 2279,
+      "genuinePercentage": 14.8,
+      "fakeCount": 798,
+      "fakePercentage": 20.1
+    },
+    {
+      "star": 2,
+      "rating": "2 Stars",
+      "genuineCount": 1207,
+      "genuinePercentage": 7.8,
+      "fakeCount": 258,
+      "fakePercentage": 6.5
+    },
+    {
+      "star": 3,
+      "rating": "3 Stars",
+      "genuineCount": 2058,
+      "genuinePercentage": 13.4,
+      "fakeCount": 324,
+      "fakePercentage": 8.2
+    },
+    {
+      "star": 4,
+      "rating": "4 Stars",
+      "genuineCount": 3974,
+      "genuinePercentage": 25.8,
+      "fakeCount": 639,
+      "fakePercentage": 16.1
+    },
+    {
+      "star": 5,
+      "rating": "5 Stars",
+      "genuineCount": 5876,
+      "genuinePercentage": 38.2,
+      "fakeCount": 1951,
+      "fakePercentage": 49.1
+    }
+  ],
+  "reviewLengthHistogram": [
+    {
+      "range": "1-20 words",
+      "genuine": 4698,
+      "fake": 2330,
+      "genuinePct": 30.5,
+      "fakePct": 58.7
+    },
+    {
+      "range": "21-50 words",
+      "genuine": 10696,
+      "fake": 1640,
+      "genuinePct": 69.5,
+      "fakePct": 41.3
+    },
+    {
+      "range": "51-100 words",
+      "genuine": 0,
+      "fake": 0,
+      "genuinePct": 0.0,
+      "fakePct": 0.0
+    },
+    {
+      "range": "101-180 words",
+      "genuine": 0,
+      "fake": 0,
+      "genuinePct": 0.0,
+      "fakePct": 0.0
+    },
+    {
+      "range": "181-300 words",
+      "genuine": 0,
+      "fake": 0,
+      "genuinePct": 0.0,
+      "fakePct": 0.0
+    },
+    {
+      "range": "300+ words",
+      "genuine": 0,
+      "fake": 0,
+      "genuinePct": 0.0,
+      "fakePct": 0.0
+    }
+  ],
+  "reviewsPerReviewer": [
+    {
+      "bin": "1 review",
+      "genuine": 4462,
+      "fake": 1787,
+      "genuinePct": 50.3,
+      "fakePct": 81.9
+    },
+    {
+      "bin": "2-3 reviews",
+      "genuine": 3982,
+      "fake": 243,
+      "genuinePct": 44.9,
+      "fakePct": 11.1
+    },
+    {
+      "bin": "4-6 reviews",
+      "genuine": 425,
+      "fake": 11,
+      "genuinePct": 4.8,
+      "fakePct": 0.5
+    },
+    {
+      "bin": "7-10 reviews",
+      "genuine": 1,
+      "fake": 53,
+      "genuinePct": 0.0,
+      "fakePct": 2.4
+    },
+    {
+      "bin": "11-20 reviews",
+      "genuine": 0,
+      "fake": 87,
+      "genuinePct": 0.0,
+      "fakePct": 4.0
+    },
+    {
+      "bin": "21+ reviews",
+      "genuine": 0,
+      "fake": 0,
+      "genuinePct": 0.0,
+      "fakePct": 0.0
+    }
+  ],
+  "monthlyVolume": [
+    {
+      "month": "2024-11",
+      "genuine": 590,
+      "fake": 77,
+      "isSpike": false,
+      "label": "Nov 24",
+      "spikeName": null
+    },
+    {
+      "month": "2024-12",
+      "genuine": 632,
+      "fake": 95,
+      "isSpike": false,
+      "label": "Dec 24",
+      "spikeName": null
+    },
+    {
+      "month": "2025-01",
+      "genuine": 645,
+      "fake": 88,
+      "isSpike": false,
+      "label": "Jan 25",
+      "spikeName": null
+    },
+    {
+      "month": "2025-02",
+      "genuine": 598,
+      "fake": 88,
+      "isSpike": false,
+      "label": "Feb 25",
+      "spikeName": null
+    },
+    {
+      "month": "2025-03",
+      "genuine": 627,
+      "fake": 75,
+      "isSpike": false,
+      "label": "Mar 25",
+      "spikeName": null
+    },
+    {
+      "month": "2025-04",
+      "genuine": 601,
+      "fake": 98,
+      "isSpike": false,
+      "label": "Apr 25",
+      "spikeName": null
+    },
+    {
+      "month": "2025-05",
+      "genuine": 631,
+      "fake": 73,
+      "isSpike": false,
+      "label": "May 25",
+      "spikeName": null
+    },
+    {
+      "month": "2025-06",
+      "genuine": 714,
+      "fake": 741,
+      "isSpike": true,
+      "label": "Jun 25",
+      "spikeName": "Summer Promo Burst"
+    },
+    {
+      "month": "2025-07",
+      "genuine": 689,
+      "fake": 76,
+      "isSpike": false,
+      "label": "Jul 25",
+      "spikeName": null
+    },
+    {
+      "month": "2025-08",
+      "genuine": 630,
+      "fake": 105,
+      "isSpike": false,
+      "label": "Aug 25",
+      "spikeName": null
+    },
+    {
+      "month": "2025-09",
+      "genuine": 626,
+      "fake": 77,
+      "isSpike": false,
+      "label": "Sep 25",
+      "spikeName": null
+    },
+    {
+      "month": "2025-10",
+      "genuine": 660,
+      "fake": 94,
+      "isSpike": false,
+      "label": "Oct 25",
+      "spikeName": null
+    },
+    {
+      "month": "2025-11",
+      "genuine": 665,
+      "fake": 80,
+      "isSpike": false,
+      "label": "Nov 25",
+      "spikeName": null
+    },
+    {
+      "month": "2025-12",
+      "genuine": 637,
+      "fake": 80,
+      "isSpike": false,
+      "label": "Dec 25",
+      "spikeName": null
+    },
+    {
+      "month": "2026-01",
+      "genuine": 690,
+      "fake": 730,
+      "isSpike": true,
+      "label": "Jan 26",
+      "spikeName": "Post-Holiday Attack"
+    },
+    {
+      "month": "2026-02",
+      "genuine": 578,
+      "fake": 87,
+      "isSpike": false,
+      "label": "Feb 26",
+      "spikeName": null
+    },
+    {
+      "month": "2026-03",
+      "genuine": 618,
+      "fake": 82,
+      "isSpike": false,
+      "label": "Mar 26",
+      "spikeName": null
+    },
+    {
+      "month": "2026-04",
+      "genuine": 643,
+      "fake": 80,
+      "isSpike": false,
+      "label": "Apr 26",
+      "spikeName": null
+    },
+    {
+      "month": "2026-05",
+      "genuine": 631,
+      "fake": 72,
+      "isSpike": false,
+      "label": "May 26",
+      "spikeName": null
+    },
+    {
+      "month": "2026-06",
+      "genuine": 635,
+      "fake": 66,
+      "isSpike": false,
+      "label": "Jun 26",
+      "spikeName": null
+    },
+    {
+      "month": "2026-07",
+      "genuine": 624,
+      "fake": 87,
+      "isSpike": false,
+      "label": "Jul 26",
+      "spikeName": null
+    },
+    {
+      "month": "2026-08",
+      "genuine": 715,
+      "fake": 761,
+      "isSpike": true,
+      "label": "Aug 26",
+      "spikeName": "Launch Syndicate Burst"
+    },
+    {
+      "month": "2026-09",
+      "genuine": 643,
+      "fake": 68,
+      "isSpike": false,
+      "label": "Sep 26",
+      "spikeName": null
+    },
+    {
+      "month": "2026-10",
+      "genuine": 672,
+      "fake": 90,
+      "isSpike": false,
+      "label": "Oct 26",
+      "spikeName": null
+    }
+  ]
+}

@@ -1,0 +1,493 @@
+{
+  "dataset": "synthetic_demo",
+  "summary": {
+    "totalPatterns": 20,
+    "criticalPatternsCount": 1,
+    "highPatternsCount": 10,
+    "totalSuspiciousReviewers": 15,
+    "averageFakeShare": 1.0,
+    "totalIdentifiedBursts": 104
+  },
+  "patterns": [
+    {
+      "id": "PAT-01",
+      "rule": "5_stars + exclamation_spikes + short_text => fake_review",
+      "antecedents": [
+        "5_stars",
+        "exclamation_spikes",
+        "short_text"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.041,
+      "confidence": 0.935,
+      "lift": 4.56,
+      "description": "Association pattern with 3 antecedent triggers yielding 4.56x lift.",
+      "riskLevel": "high"
+    },
+    {
+      "id": "PAT-02",
+      "rule": "5_stars + exclamation_spikes + extreme_rating + short_text => fake_review",
+      "antecedents": [
+        "5_stars",
+        "exclamation_spikes",
+        "extreme_rating",
+        "short_text"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.041,
+      "confidence": 0.935,
+      "lift": 4.56,
+      "description": "Association pattern with 4 antecedent triggers yielding 4.56x lift.",
+      "riskLevel": "high"
+    },
+    {
+      "id": "PAT-03",
+      "rule": "exclamation_spikes + short_text => fake_review",
+      "antecedents": [
+        "exclamation_spikes",
+        "short_text"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.076,
+      "confidence": 0.932,
+      "lift": 4.55,
+      "description": "Association pattern with 2 antecedent triggers yielding 4.55x lift.",
+      "riskLevel": "high"
+    },
+    {
+      "id": "PAT-04",
+      "rule": "exclamation_spikes + extreme_rating + short_text => fake_review",
+      "antecedents": [
+        "exclamation_spikes",
+        "extreme_rating",
+        "short_text"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.057,
+      "confidence": 0.932,
+      "lift": 4.55,
+      "description": "Association pattern with 3 antecedent triggers yielding 4.55x lift.",
+      "riskLevel": "high"
+    },
+    {
+      "id": "PAT-05",
+      "rule": "5_stars + exclamation_spikes => fake_review",
+      "antecedents": [
+        "5_stars",
+        "exclamation_spikes"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.058,
+      "confidence": 0.931,
+      "lift": 4.54,
+      "description": "Association pattern with 2 antecedent triggers yielding 4.54x lift.",
+      "riskLevel": "high"
+    },
+    {
+      "id": "PAT-06",
+      "rule": "5_stars + exclamation_spikes + extreme_rating => fake_review",
+      "antecedents": [
+        "5_stars",
+        "exclamation_spikes",
+        "extreme_rating"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.058,
+      "confidence": 0.931,
+      "lift": 4.54,
+      "description": "Association pattern with 3 antecedent triggers yielding 4.54x lift.",
+      "riskLevel": "high"
+    },
+    {
+      "id": "PAT-07",
+      "rule": "exclamation_spikes + extreme_rating => fake_review",
+      "antecedents": [
+        "exclamation_spikes",
+        "extreme_rating"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.084,
+      "confidence": 0.93,
+      "lift": 4.53,
+      "description": "Association pattern with 2 antecedent triggers yielding 4.53x lift.",
+      "riskLevel": "high"
+    },
+    {
+      "id": "PAT-08",
+      "rule": "exclamation_spikes => fake_review",
+      "antecedents": [
+        "exclamation_spikes"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.106,
+      "confidence": 0.929,
+      "lift": 4.53,
+      "description": "Association pattern with 1 antecedent triggers yielding 4.53x lift.",
+      "riskLevel": "high"
+    },
+    {
+      "id": "PAT-09",
+      "rule": "1_star + exclamation_spikes => fake_review",
+      "antecedents": [
+        "1_star",
+        "exclamation_spikes"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.025,
+      "confidence": 0.927,
+      "lift": 4.52,
+      "description": "Association pattern with 2 antecedent triggers yielding 4.52x lift.",
+      "riskLevel": "high"
+    },
+    {
+      "id": "PAT-10",
+      "rule": "1_star + exclamation_spikes + extreme_rating => fake_review",
+      "antecedents": [
+        "1_star",
+        "exclamation_spikes",
+        "extreme_rating"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.025,
+      "confidence": 0.927,
+      "lift": 4.52,
+      "description": "Association pattern with 3 antecedent triggers yielding 4.52x lift.",
+      "riskLevel": "high"
+    },
+    {
+      "id": "PAT-11",
+      "rule": "short_text => fake_review",
+      "antecedents": [
+        "short_text"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.096,
+      "confidence": 0.372,
+      "lift": 1.82,
+      "description": "Association pattern with 1 antecedent triggers yielding 1.82x lift.",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "PAT-12",
+      "rule": "5_stars + extreme_rating + short_text => fake_review",
+      "antecedents": [
+        "5_stars",
+        "extreme_rating",
+        "short_text"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.052,
+      "confidence": 0.353,
+      "lift": 1.72,
+      "description": "Association pattern with 3 antecedent triggers yielding 1.72x lift.",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "PAT-13",
+      "rule": "5_stars + short_text => fake_review",
+      "antecedents": [
+        "5_stars",
+        "short_text"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.052,
+      "confidence": 0.353,
+      "lift": 1.72,
+      "description": "Association pattern with 2 antecedent triggers yielding 1.72x lift.",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "PAT-14",
+      "rule": "extreme_rating + short_text => fake_review",
+      "antecedents": [
+        "extreme_rating",
+        "short_text"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.073,
+      "confidence": 0.312,
+      "lift": 1.52,
+      "description": "Association pattern with 2 antecedent triggers yielding 1.52x lift.",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "PAT-15",
+      "rule": "1_star => fake_review",
+      "antecedents": [
+        "1_star"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.041,
+      "confidence": 0.259,
+      "lift": 1.26,
+      "description": "Association pattern with 1 antecedent triggers yielding 1.26x lift.",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "PAT-16",
+      "rule": "1_star + extreme_rating => fake_review",
+      "antecedents": [
+        "1_star",
+        "extreme_rating"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.041,
+      "confidence": 0.259,
+      "lift": 1.26,
+      "description": "Association pattern with 2 antecedent triggers yielding 1.26x lift.",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "PAT-17",
+      "rule": "extreme_rating => fake_review",
+      "antecedents": [
+        "extreme_rating"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.142,
+      "confidence": 0.252,
+      "lift": 1.23,
+      "description": "Association pattern with 1 antecedent triggers yielding 1.23x lift.",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "PAT-18",
+      "rule": "5_stars => fake_review",
+      "antecedents": [
+        "5_stars"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.101,
+      "confidence": 0.249,
+      "lift": 1.22,
+      "description": "Association pattern with 1 antecedent triggers yielding 1.22x lift.",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "PAT-19",
+      "rule": "5_stars + extreme_rating => fake_review",
+      "antecedents": [
+        "5_stars",
+        "extreme_rating"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.101,
+      "confidence": 0.249,
+      "lift": 1.22,
+      "description": "Association pattern with 2 antecedent triggers yielding 1.22x lift.",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "PAT-01",
+      "rule": "extreme_rating + same-day_burst + short_text => fake_review",
+      "antecedents": [
+        "Extreme Rating (1 or 5)",
+        "Same-Day Burst Window",
+        "Short Length (< 25 words)"
+      ],
+      "consequent": "Fake Review",
+      "support": 0.084,
+      "confidence": 0.942,
+      "lift": 5.23,
+      "description": "Reviews posted during high velocity volume bursts with short boilerplate and 1 or 5 star ratings.",
+      "riskLevel": "critical"
+    }
+  ],
+  "suspiciousReviewers": [
+    {
+      "id": "REV-USR-0061",
+      "name": "SyndicateNode_0061",
+      "total_reviews": 19,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.89,
+      "account_age_days": 15,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "extreme_rating + same-day_burst + short_text",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0023",
+      "name": "SyndicateNode_0023",
+      "total_reviews": 17,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.71,
+      "account_age_days": 19,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "extreme_rating + same-day_burst + short_text",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0074",
+      "name": "SyndicateNode_0074",
+      "total_reviews": 16,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 4.19,
+      "account_age_days": 23,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "extreme_rating + same-day_burst + short_text",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0108",
+      "name": "SyndicateNode_0108",
+      "total_reviews": 16,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 2.69,
+      "account_age_days": 27,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "unverified_purchase + 5_stars + extreme_sentiment",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0005",
+      "name": "SyndicateNode_0005",
+      "total_reviews": 15,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.73,
+      "account_age_days": 31,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "unverified_purchase + 5_stars + extreme_sentiment",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0018",
+      "name": "SyndicateNode_0018",
+      "total_reviews": 15,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 4.07,
+      "account_age_days": 35,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "unverified_purchase + 5_stars + extreme_sentiment",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0087",
+      "name": "SyndicateNode_0087",
+      "total_reviews": 15,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.2,
+      "account_age_days": 39,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "extreme_rating + same-day_burst + short_text",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0110",
+      "name": "SyndicateNode_0110",
+      "total_reviews": 15,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.53,
+      "account_age_days": 43,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "unverified_purchase + 5_stars + extreme_sentiment",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0009",
+      "name": "SyndicateNode_0009",
+      "total_reviews": 14,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.36,
+      "account_age_days": 47,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "extreme_rating + same-day_burst + short_text",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0043",
+      "name": "SyndicateNode_0043",
+      "total_reviews": 14,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.71,
+      "account_age_days": 51,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "extreme_rating + same-day_burst + short_text",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0072",
+      "name": "SyndicateNode_0072",
+      "total_reviews": 14,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.79,
+      "account_age_days": 55,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "unverified_purchase + 5_stars + extreme_sentiment",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0095",
+      "name": "SyndicateNode_0095",
+      "total_reviews": 14,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.5,
+      "account_age_days": 59,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "unverified_purchase + 5_stars + extreme_sentiment",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0102",
+      "name": "SyndicateNode_0102",
+      "total_reviews": 14,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.14,
+      "account_age_days": 63,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "unverified_purchase + 5_stars + extreme_sentiment",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0134",
+      "name": "SyndicateNode_0134",
+      "total_reviews": 14,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.29,
+      "account_age_days": 67,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "extreme_rating + same-day_burst + short_text",
+      "flagged_date": "2026-10-09"
+    },
+    {
+      "id": "REV-USR-0022",
+      "name": "SyndicateNode_0022",
+      "total_reviews": 13,
+      "fake_share": 1.0,
+      "burst_count": 0,
+      "avg_rating": 3.15,
+      "account_age_days": 71,
+      "status": "banned",
+      "risk_score": 95,
+      "dominant_pattern": "unverified_purchase + 5_stars + extreme_sentiment",
+      "flagged_date": "2026-10-09"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "review_text": "BEST HEADPHONES EVER IN HUMAN HISTORY!! MUST BUY NOW!! Completely transformed my life!",
+    "rating": 5,
+    "reviewer_id": "REV-USR-0104",
+    "date": "2026-10-10",
+    "product_id": "PRD-8821"
+  },
+  {
+    "review_text": "The soundstage is clear and battery easily lasts 30 hours. Ear cushions are soft for long flights.",
+    "rating": 4,
+    "reviewer_id": "USR-GEN-1042",
+    "date": "2026-09-18",
+    "product_id": "PRD-8821"
+  },
+  {
+    "review_text": "TOTAL SCAM DO NOT BUY!! Stopped working after two days and support refused refund!!",
+    "rating": 1,
+    "reviewer_id": "REV-USR-0061",
+    "date": "2026-08-14",
+    "product_id": "PRD-4512"
+  },
+  {
+    "review_text": "Build quality is solid and pairing with phone was instantaneous. Good value for money.",
+    "rating": 5,
+    "reviewer_id": "USR-GEN-2089",
+    "date": "2026-07-22",
+    "product_id": "PRD-3649"
+  },
+  {
+    "review_text": "Average performance. Noise cancellation is mediocre on the subway compared to premium brands.",
+    "rating": 3,
+    "reviewer_id": "USR-GEN-3110",
+    "date": "2026-06-30",
+    "product_id": "PRD-8821"
+  }
+]

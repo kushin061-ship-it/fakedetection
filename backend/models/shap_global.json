@@ -1,0 +1,237 @@
+{
+  "model": "XGBoost (Classifier v2.4)",
+  "baseValue": 0.18,
+  "numSamplesAnalyzed": 2905,
+  "dataset": "synthetic_demo",
+  "features": [
+    {
+      "name": "exclamation_count",
+      "displayName": "Exclamation Mark Density",
+      "group": "textual",
+      "mean_abs_shap": 1.015,
+      "description": "Count of exclamation mark (!) characters in the review text.",
+      "rank": 1,
+      "impact": "High",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "reviewer_total_reviews",
+      "displayName": "Reviewer Lifetime Submissions",
+      "group": "behavioral",
+      "mean_abs_shap": 0.232,
+      "description": "Total count of platform reviews authored by the user.",
+      "rank": 2,
+      "impact": "Medium",
+      "direction": "Extreme rating deviations and burst velocity push toward fake"
+    },
+    {
+      "name": "bit",
+      "displayName": "Bit",
+      "group": "textual",
+      "mean_abs_shap": 0.09,
+      "description": "NLP TF-IDF keyword attribution for token 'bit'.",
+      "rank": 3,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "commute",
+      "displayName": "Commute",
+      "group": "textual",
+      "mean_abs_shap": 0.072,
+      "description": "NLP TF-IDF keyword attribution for token 'commute'.",
+      "rank": 4,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "attempts",
+      "displayName": "Attempts",
+      "group": "textual",
+      "mean_abs_shap": 0.067,
+      "description": "NLP TF-IDF keyword attribution for token 'attempts'.",
+      "rank": 5,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "comes",
+      "displayName": "Comes",
+      "group": "textual",
+      "mean_abs_shap": 0.067,
+      "description": "NLP TF-IDF keyword attribution for token 'comes'.",
+      "rank": 6,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "absolute",
+      "displayName": "Absolute",
+      "group": "textual",
+      "mean_abs_shap": 0.056,
+      "description": "NLP TF-IDF keyword attribution for token 'absolute'.",
+      "rank": 7,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "avg_word_length",
+      "displayName": "Average Word Length",
+      "group": "textual",
+      "mean_abs_shap": 0.046,
+      "description": "Average character count per word.",
+      "rank": 8,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "sentiment_polarity",
+      "displayName": "Sentiment Polarity Extremity",
+      "group": "textual",
+      "mean_abs_shap": 0.039,
+      "description": "TextBlob sentiment polarity score (-1.0 negative to +1.0 positive).",
+      "rank": 9,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "described",
+      "displayName": "Described",
+      "group": "textual",
+      "mean_abs_shap": 0.027,
+      "description": "NLP TF-IDF keyword attribution for token 'described'.",
+      "rank": 10,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "trash",
+      "displayName": "Trash",
+      "group": "textual",
+      "mean_abs_shap": 0.027,
+      "description": "NLP TF-IDF keyword attribution for token 'trash'.",
+      "rank": 11,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "fast",
+      "displayName": "Fast",
+      "group": "textual",
+      "mean_abs_shap": 0.019,
+      "description": "NLP TF-IDF keyword attribution for token 'fast'.",
+      "rank": 12,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "life",
+      "displayName": "Life",
+      "group": "textual",
+      "mean_abs_shap": 0.018,
+      "description": "NLP TF-IDF keyword attribution for token 'life'.",
+      "rank": 13,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "review_length",
+      "displayName": "Review Length (Chars)",
+      "group": "textual",
+      "mean_abs_shap": 0.017,
+      "description": "Total character length of the raw review text.",
+      "rank": 14,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "capital_letter_ratio",
+      "displayName": "Uppercase Character Ratio",
+      "group": "textual",
+      "mean_abs_shap": 0.016,
+      "description": "Proportion of uppercase alphabetic letters to total letters.",
+      "rank": 15,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "reviewer_rating_variance",
+      "displayName": "Reviewer Rating Variance",
+      "group": "behavioral",
+      "mean_abs_shap": 0.014,
+      "description": "Variance of star ratings assigned by this reviewer.",
+      "rank": 16,
+      "impact": "Low",
+      "direction": "Extreme rating deviations and burst velocity push toward fake"
+    },
+    {
+      "name": "keyboard",
+      "displayName": "Keyboard",
+      "group": "textual",
+      "mean_abs_shap": 0.014,
+      "description": "NLP TF-IDF keyword attribution for token 'keyboard'.",
+      "rank": 17,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "seller",
+      "displayName": "Seller",
+      "group": "textual",
+      "mean_abs_shap": 0.013,
+      "description": "NLP TF-IDF keyword attribution for token 'seller'.",
+      "rank": 18,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "tactile",
+      "displayName": "Tactile",
+      "group": "textual",
+      "mean_abs_shap": 0.012,
+      "description": "NLP TF-IDF keyword attribution for token 'tactile'.",
+      "rank": 19,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    },
+    {
+      "name": "battery",
+      "displayName": "Battery",
+      "group": "textual",
+      "mean_abs_shap": 0.011,
+      "description": "NLP TF-IDF keyword attribution for token 'battery'.",
+      "rank": 20,
+      "impact": "Low",
+      "direction": "Concise boilerplate praise and high exclamation frequency increase fake score"
+    }
+  ],
+  "groupSummary": [
+    {
+      "group": "behavioral",
+      "name": "Behavioral Features",
+      "color": "#f59e0b",
+      "totalMeanShap": 0.246,
+      "featureCount": 2,
+      "percentage": 13.1,
+      "description": "Reviewer posting velocity, rating extremity, verified purchases, and account tenure."
+    },
+    {
+      "group": "textual",
+      "name": "Textual Features",
+      "color": "#3b82f6",
+      "totalMeanShap": 1.626,
+      "featureCount": 18,
+      "percentage": 86.9,
+      "description": "Sentiment intensity, review length, exclamation spikes, and vocabulary variety."
+    },
+    {
+      "group": "temporal",
+      "name": "Temporal Features",
+      "color": "#a855f7",
+      "totalMeanShap": 0.0,
+      "featureCount": 0,
+      "percentage": 0.0,
+      "description": "Coordinated burst windows, post-launch timing, and rapid submission intervals."
+    }
+  ]
+}

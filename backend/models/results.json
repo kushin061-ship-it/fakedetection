@@ -1,0 +1,682 @@
+{
+  "dataset": "synthetic_demo",
+  "summary": {
+    "bestModel": "XGBoost",
+    "bestF1": 0.839,
+    "bestRocAuc": 0.87,
+    "evaluationDatasetSize": 2905,
+    "splitRatio": "70/15/15 Train/Val/Test"
+  },
+  "models": [
+    {
+      "id": "xgboost",
+      "name": "XGBoost",
+      "displayName": "XGBoost (Champion)",
+      "type": "Gradient Boosted Trees",
+      "isBest": true,
+      "metrics": {
+        "accuracy": 0.94,
+        "precision": 0.93,
+        "recall": 0.765,
+        "f1": 0.839,
+        "rocAuc": 0.87
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Genuine",
+          "Fake"
+        ],
+        "matrix": [
+          [
+            2276,
+            34
+          ],
+          [
+            140,
+            455
+          ]
+        ],
+        "tn": 2276,
+        "fp": 34,
+        "fn": 140,
+        "tp": 455,
+        "total": 2905,
+        "normalized": [
+          [
+            0.985,
+            0.015
+          ],
+          [
+            0.235,
+            0.765
+          ]
+        ]
+      },
+      "rocCurve": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.053,
+          "tpr": 0.77
+        },
+        {
+          "fpr": 0.105,
+          "tpr": 0.776
+        },
+        {
+          "fpr": 0.158,
+          "tpr": 0.788
+        },
+        {
+          "fpr": 0.211,
+          "tpr": 0.794
+        },
+        {
+          "fpr": 0.263,
+          "tpr": 0.806
+        },
+        {
+          "fpr": 0.316,
+          "tpr": 0.822
+        },
+        {
+          "fpr": 0.368,
+          "tpr": 0.84
+        },
+        {
+          "fpr": 0.421,
+          "tpr": 0.858
+        },
+        {
+          "fpr": 0.474,
+          "tpr": 0.879
+        },
+        {
+          "fpr": 0.526,
+          "tpr": 0.896
+        },
+        {
+          "fpr": 0.579,
+          "tpr": 0.901
+        },
+        {
+          "fpr": 0.632,
+          "tpr": 0.913
+        },
+        {
+          "fpr": 0.684,
+          "tpr": 0.925
+        },
+        {
+          "fpr": 0.737,
+          "tpr": 0.936
+        },
+        {
+          "fpr": 0.789,
+          "tpr": 0.951
+        },
+        {
+          "fpr": 0.842,
+          "tpr": 0.963
+        },
+        {
+          "fpr": 0.895,
+          "tpr": 0.973
+        },
+        {
+          "fpr": 0.947,
+          "tpr": 0.983
+        },
+        {
+          "fpr": 1.0,
+          "tpr": 1.0
+        }
+      ],
+      "trainingTimeSeconds": 29.56,
+      "featureImportanceTop": [
+        "exclamation_count",
+        "reviewer_total_reviews",
+        "commute",
+        "comes"
+      ]
+    },
+    {
+      "id": "lightgbm",
+      "name": "LightGBM",
+      "displayName": "LightGBM",
+      "type": "Gradient Boosted Trees",
+      "isBest": false,
+      "metrics": {
+        "accuracy": 0.94,
+        "precision": 0.93,
+        "recall": 0.765,
+        "f1": 0.839,
+        "rocAuc": 0.88
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Genuine",
+          "Fake"
+        ],
+        "matrix": [
+          [
+            2276,
+            34
+          ],
+          [
+            140,
+            455
+          ]
+        ],
+        "tn": 2276,
+        "fp": 34,
+        "fn": 140,
+        "tp": 455,
+        "total": 2905,
+        "normalized": [
+          [
+            0.985,
+            0.015
+          ],
+          [
+            0.235,
+            0.765
+          ]
+        ]
+      },
+      "rocCurve": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.053,
+          "tpr": 0.773
+        },
+        {
+          "fpr": 0.105,
+          "tpr": 0.789
+        },
+        {
+          "fpr": 0.158,
+          "tpr": 0.802
+        },
+        {
+          "fpr": 0.211,
+          "tpr": 0.816
+        },
+        {
+          "fpr": 0.263,
+          "tpr": 0.829
+        },
+        {
+          "fpr": 0.316,
+          "tpr": 0.842
+        },
+        {
+          "fpr": 0.368,
+          "tpr": 0.855
+        },
+        {
+          "fpr": 0.421,
+          "tpr": 0.868
+        },
+        {
+          "fpr": 0.474,
+          "tpr": 0.882
+        },
+        {
+          "fpr": 0.526,
+          "tpr": 0.895
+        },
+        {
+          "fpr": 0.579,
+          "tpr": 0.908
+        },
+        {
+          "fpr": 0.632,
+          "tpr": 0.923
+        },
+        {
+          "fpr": 0.684,
+          "tpr": 0.932
+        },
+        {
+          "fpr": 0.737,
+          "tpr": 0.945
+        },
+        {
+          "fpr": 0.789,
+          "tpr": 0.959
+        },
+        {
+          "fpr": 0.842,
+          "tpr": 0.971
+        },
+        {
+          "fpr": 0.895,
+          "tpr": 0.982
+        },
+        {
+          "fpr": 0.947,
+          "tpr": 0.993
+        },
+        {
+          "fpr": 1.0,
+          "tpr": 1.0
+        }
+      ],
+      "trainingTimeSeconds": 9.18,
+      "featureImportanceTop": [
+        "reviewer_total_reviews",
+        "reviewer_avg_rating",
+        "extreme_rating_ratio",
+        "rating_deviation_product"
+      ]
+    },
+    {
+      "id": "random_forest",
+      "name": "Random Forest",
+      "displayName": "Random Forest",
+      "type": "Ensemble Trees",
+      "isBest": false,
+      "metrics": {
+        "accuracy": 0.94,
+        "precision": 0.932,
+        "recall": 0.765,
+        "f1": 0.84,
+        "rocAuc": 0.874
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Genuine",
+          "Fake"
+        ],
+        "matrix": [
+          [
+            2277,
+            33
+          ],
+          [
+            140,
+            455
+          ]
+        ],
+        "tn": 2277,
+        "fp": 33,
+        "fn": 140,
+        "tp": 455,
+        "total": 2905,
+        "normalized": [
+          [
+            0.986,
+            0.014
+          ],
+          [
+            0.235,
+            0.765
+          ]
+        ]
+      },
+      "rocCurve": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.053,
+          "tpr": 0.77
+        },
+        {
+          "fpr": 0.105,
+          "tpr": 0.778
+        },
+        {
+          "fpr": 0.158,
+          "tpr": 0.792
+        },
+        {
+          "fpr": 0.211,
+          "tpr": 0.797
+        },
+        {
+          "fpr": 0.263,
+          "tpr": 0.817
+        },
+        {
+          "fpr": 0.316,
+          "tpr": 0.83
+        },
+        {
+          "fpr": 0.368,
+          "tpr": 0.845
+        },
+        {
+          "fpr": 0.421,
+          "tpr": 0.855
+        },
+        {
+          "fpr": 0.474,
+          "tpr": 0.867
+        },
+        {
+          "fpr": 0.526,
+          "tpr": 0.889
+        },
+        {
+          "fpr": 0.579,
+          "tpr": 0.904
+        },
+        {
+          "fpr": 0.632,
+          "tpr": 0.924
+        },
+        {
+          "fpr": 0.684,
+          "tpr": 0.933
+        },
+        {
+          "fpr": 0.737,
+          "tpr": 0.948
+        },
+        {
+          "fpr": 0.789,
+          "tpr": 0.96
+        },
+        {
+          "fpr": 0.842,
+          "tpr": 0.97
+        },
+        {
+          "fpr": 0.895,
+          "tpr": 0.98
+        },
+        {
+          "fpr": 0.947,
+          "tpr": 0.99
+        },
+        {
+          "fpr": 1.0,
+          "tpr": 1.0
+        }
+      ],
+      "trainingTimeSeconds": 20.9,
+      "featureImportanceTop": [
+        "exclamation_count",
+        "reviewer_total_reviews",
+        "capital_letter_ratio",
+        "review_length"
+      ]
+    },
+    {
+      "id": "logistic_regression",
+      "name": "Logistic Regression",
+      "displayName": "Logistic Regression",
+      "type": "Linear Model",
+      "isBest": false,
+      "metrics": {
+        "accuracy": 0.94,
+        "precision": 0.932,
+        "recall": 0.765,
+        "f1": 0.84,
+        "rocAuc": 0.878
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Genuine",
+          "Fake"
+        ],
+        "matrix": [
+          [
+            2277,
+            33
+          ],
+          [
+            140,
+            455
+          ]
+        ],
+        "tn": 2277,
+        "fp": 33,
+        "fn": 140,
+        "tp": 455,
+        "total": 2905,
+        "normalized": [
+          [
+            0.986,
+            0.014
+          ],
+          [
+            0.235,
+            0.765
+          ]
+        ]
+      },
+      "rocCurve": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.053,
+          "tpr": 0.768
+        },
+        {
+          "fpr": 0.105,
+          "tpr": 0.775
+        },
+        {
+          "fpr": 0.158,
+          "tpr": 0.787
+        },
+        {
+          "fpr": 0.211,
+          "tpr": 0.802
+        },
+        {
+          "fpr": 0.263,
+          "tpr": 0.82
+        },
+        {
+          "fpr": 0.316,
+          "tpr": 0.84
+        },
+        {
+          "fpr": 0.368,
+          "tpr": 0.857
+        },
+        {
+          "fpr": 0.421,
+          "tpr": 0.869
+        },
+        {
+          "fpr": 0.474,
+          "tpr": 0.894
+        },
+        {
+          "fpr": 0.526,
+          "tpr": 0.901
+        },
+        {
+          "fpr": 0.579,
+          "tpr": 0.913
+        },
+        {
+          "fpr": 0.632,
+          "tpr": 0.924
+        },
+        {
+          "fpr": 0.684,
+          "tpr": 0.939
+        },
+        {
+          "fpr": 0.737,
+          "tpr": 0.951
+        },
+        {
+          "fpr": 0.789,
+          "tpr": 0.958
+        },
+        {
+          "fpr": 0.842,
+          "tpr": 0.965
+        },
+        {
+          "fpr": 0.895,
+          "tpr": 0.973
+        },
+        {
+          "fpr": 0.947,
+          "tpr": 0.987
+        },
+        {
+          "fpr": 1.0,
+          "tpr": 1.0
+        }
+      ],
+      "trainingTimeSeconds": 5.52,
+      "featureImportanceTop": [
+        "same_day_review_count",
+        "extreme_rating_ratio",
+        "review_length",
+        "sentiment_polarity"
+      ]
+    },
+    {
+      "id": "naive_bayes",
+      "name": "Naive Bayes",
+      "displayName": "Multinomial Naive Bayes",
+      "type": "Probabilistic Model",
+      "isBest": false,
+      "metrics": {
+        "accuracy": 0.94,
+        "precision": 0.929,
+        "recall": 0.765,
+        "f1": 0.839,
+        "rocAuc": 0.871
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Genuine",
+          "Fake"
+        ],
+        "matrix": [
+          [
+            2275,
+            35
+          ],
+          [
+            140,
+            455
+          ]
+        ],
+        "tn": 2275,
+        "fp": 35,
+        "fn": 140,
+        "tp": 455,
+        "total": 2905,
+        "normalized": [
+          [
+            0.985,
+            0.015
+          ],
+          [
+            0.235,
+            0.765
+          ]
+        ]
+      },
+      "rocCurve": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.053,
+          "tpr": 0.769
+        },
+        {
+          "fpr": 0.105,
+          "tpr": 0.778
+        },
+        {
+          "fpr": 0.158,
+          "tpr": 0.788
+        },
+        {
+          "fpr": 0.211,
+          "tpr": 0.805
+        },
+        {
+          "fpr": 0.263,
+          "tpr": 0.818
+        },
+        {
+          "fpr": 0.316,
+          "tpr": 0.835
+        },
+        {
+          "fpr": 0.368,
+          "tpr": 0.847
+        },
+        {
+          "fpr": 0.421,
+          "tpr": 0.863
+        },
+        {
+          "fpr": 0.474,
+          "tpr": 0.879
+        },
+        {
+          "fpr": 0.526,
+          "tpr": 0.887
+        },
+        {
+          "fpr": 0.579,
+          "tpr": 0.892
+        },
+        {
+          "fpr": 0.632,
+          "tpr": 0.914
+        },
+        {
+          "fpr": 0.684,
+          "tpr": 0.928
+        },
+        {
+          "fpr": 0.737,
+          "tpr": 0.934
+        },
+        {
+          "fpr": 0.789,
+          "tpr": 0.943
+        },
+        {
+          "fpr": 0.842,
+          "tpr": 0.955
+        },
+        {
+          "fpr": 0.895,
+          "tpr": 0.97
+        },
+        {
+          "fpr": 0.947,
+          "tpr": 0.985
+        },
+        {
+          "fpr": 1.0,
+          "tpr": 1.0
+        }
+      ],
+      "trainingTimeSeconds": 0.51,
+      "featureImportanceTop": [
+        "same_day_review_count",
+        "extreme_rating_ratio",
+        "review_length",
+        "sentiment_polarity"
+      ]
+    }
+  ]
+}

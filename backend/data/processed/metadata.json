@@ -1,0 +1,25 @@
+{
+  "dataset_name": "synthetic_demo",
+  "total_rows": 19364,
+  "train_rows": 13554,
+  "val_rows": 2905,
+  "test_rows": 2905,
+  "fake_count": 3970,
+  "genuine_count": 15394,
+  "fake_percentage": 20.5,
+  "genuine_percentage": 79.5,
+  "enabled_feature_groups": [
+    "textual",
+    "behavioral",
+    "temporal"
+  ],
+  "has_reviewer_id": true,
+  "has_date": true,
+  "has_product_id": true,
+  "split_ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "random_state": 42
+}
