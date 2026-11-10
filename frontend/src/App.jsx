@@ -2,17 +2,30 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layout/MainLayout';
 import DetectPage from './pages/DetectPage';
-import ExplainabilityPage from './pages/ExplainabilityPage';
-import ModelsPage from './pages/ModelsPage';
+import LoginPage from './pages/LoginPage';
+
+function RequireAuth({ children }) {
+  const auth = JSON.parse(localStorage.getItem('tl_auth') || '{}');
+  if (!auth.loggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <MainLayout />
+            </RequireAuth>
+          }
+        >
           <Route index element={<DetectPage />} />
-          <Route path="explainability" element={<ExplainabilityPage />} />
-          <Route path="model" element={<ModelsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

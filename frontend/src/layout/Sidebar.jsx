@@ -1,11 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { ShieldCheck, Search, Brain, BarChart3 } from 'lucide-react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { ShieldCheck, Search, LogOut } from 'lucide-react';
 
 const menuItems = [
   { to: '/', label: 'Detect', icon: Search },
-  { to: '/explainability', label: 'Explainability', icon: Brain },
-  { to: '/model', label: 'Model', icon: BarChart3 },
 ];
 
 function LogoMark({ size = 28 }) {
@@ -71,6 +69,44 @@ function SidebarNavLinkMobile({ to, icon: Icon }) {
   );
 }
 
+function LogoutButton() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('tl_auth');
+    navigate('/login', { replace: true });
+  };
+
+  return (
+    <button
+      onClick={handleLogout}
+      className="flex items-center gap-3 px-4 py-2.5 rounded-[10px] text-sm font-medium text-tl-sidebar hover:bg-tl-fake-bg hover:text-tl-fake transition-all duration-200 ease-out w-full"
+    >
+      <LogOut size={18} />
+      <span>Sign Out</span>
+    </button>
+  );
+}
+
+function LogoutButtonMobile() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('tl_auth');
+    navigate('/login', { replace: true });
+  };
+
+  return (
+    <button
+      onClick={handleLogout}
+      className="flex items-center justify-center w-10 h-10 rounded-[10px] text-tl-sidebar hover:bg-tl-fake-bg hover:text-tl-fake transition-all duration-200 ease-out"
+      aria-label="Sign out"
+    >
+      <LogOut size={20} />
+    </button>
+  );
+}
+
 export default function Sidebar() {
   return (
     <>
@@ -91,8 +127,11 @@ export default function Sidebar() {
           ))}
         </nav>
 
-        {/* Footer */}
-        <div className="px-5 py-4">
+        {/* Footer with Logout */}
+        <div className="px-3 pb-3">
+          <LogoutButton />
+        </div>
+        <div className="px-5 py-3 border-t border-tl-border">
           <p className="text-[11px] text-tl-muted tracking-wide">© 2026 TrustLens</p>
         </div>
       </aside>
@@ -107,11 +146,12 @@ export default function Sidebar() {
           <span className="text-base font-bold text-tl-text tracking-tight">TrustLens</span>
         </div>
 
-        {/* Icon-only nav links */}
+        {/* Icon-only nav links + Logout */}
         <nav className="flex items-center gap-1">
           {menuItems.map((item) => (
             <SidebarNavLinkMobile key={item.to} to={item.to} icon={item.icon} />
           ))}
+          <LogoutButtonMobile />
         </nav>
       </header>
     </>
