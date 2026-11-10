@@ -69,6 +69,28 @@ function SidebarNavLinkMobile({ to, icon: Icon }) {
   );
 }
 
+function UserInfo() {
+  const auth = JSON.parse(localStorage.getItem('tl_auth') || '{}');
+  const initials = (auth.name || 'U')
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+
+  return (
+    <div className="flex items-center gap-2.5 px-4 py-2.5">
+      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#3A78F2] to-[#74A6FF] text-white text-xs font-bold flex items-center justify-center shrink-0">
+        {initials}
+      </div>
+      <div className="min-w-0">
+        <p className="text-xs font-semibold text-tl-text truncate">{auth.name || 'User'}</p>
+        <p className="text-[10px] text-tl-muted truncate">{auth.email || ''}</p>
+      </div>
+    </div>
+  );
+}
+
 function LogoutButton() {
   const navigate = useNavigate();
 
@@ -127,8 +149,9 @@ export default function Sidebar() {
           ))}
         </nav>
 
-        {/* Footer with Logout */}
-        <div className="px-3 pb-3">
+        {/* User Info & Logout */}
+        <div className="px-3 pb-2 space-y-1">
+          <UserInfo />
           <LogoutButton />
         </div>
         <div className="px-5 py-3 border-t border-tl-border">
