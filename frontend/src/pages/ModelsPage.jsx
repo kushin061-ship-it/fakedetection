@@ -25,7 +25,6 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import { getModelComparison, getConfusion, useApi } from '../api';
-import { useDarkMode } from '../hooks/useDarkMode';
 import PageHeader from '../components/PageHeader';
 import Card, { CardHeader, CardTitle, CardDescription, CardContent } from '../components/Card';
 import Badge from '../components/Badge';
@@ -52,14 +51,14 @@ const METRICS_CONFIG = [
 ];
 
 /**
- * Custom dark-mode aware Tooltip for Recharts
+ * Custom TrustLens Tooltip for Recharts
  */
 function ChartTooltip({ active, payload, label, unit = '%' }) {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border border-slate-200/90 dark:border-slate-800/90 p-3 rounded-xl shadow-soft-lg text-xs space-y-1.5 min-w-[150px]">
+      <div className="bg-tl-card/95 backdrop-blur-sm border border-tl-border p-3 rounded-[14px] shadow-card text-xs space-y-1.5 min-w-[150px]">
         {label && (
-          <p className="font-semibold text-slate-800 dark:text-slate-200 border-b border-slate-200/60 dark:border-slate-800/60 pb-1">
+          <p className="font-semibold text-tl-text border-b border-tl-border pb-1">
             {label}
           </p>
         )}
@@ -70,11 +69,11 @@ function ChartTooltip({ active, payload, label, unit = '%' }) {
                 className="w-2.5 h-2.5 rounded-full shrink-0"
                 style={{ backgroundColor: item.color || item.fill || item.stroke }}
               />
-              <span className="text-slate-600 dark:text-slate-400 font-medium truncate max-w-[140px]">
+              <span className="text-tl-muted font-medium truncate max-w-[140px]">
                 {item.name}:
               </span>
             </div>
-            <span className="font-mono font-bold text-slate-900 dark:text-slate-100">
+            <span className="font-mono font-bold text-tl-text">
               {typeof item.value === 'number' ? `${item.value.toFixed(1)}${unit}` : item.value}
             </span>
           </div>
@@ -87,7 +86,6 @@ function ChartTooltip({ active, payload, label, unit = '%' }) {
 
 export function ModelsPage() {
   const { data: comparisonData, loading, error, refetch } = useApi(getModelComparison, []);
-  const { isDark } = useDarkMode();
 
   // Sort state for metrics table
   const [sortConfig, setSortConfig] = useState({ key: 'f1', direction: 'desc' });
@@ -120,9 +118,9 @@ export function ModelsPage() {
     refetch: refetchConfusion,
   } = useApi(() => getConfusion(selectedModelId), [selectedModelId]);
 
-  // Chart theme colors
-  const gridColor = isDark ? '#334155' : '#e2e8f0';
-  const axisColor = isDark ? '#94a3b8' : '#64748b';
+  // TrustLens chart theme colors
+  const gridColor = '#E6ECF5';
+  const axisColor = '#6B7A93';
 
   // Toggle metric chips in bar chart
   const handleToggleMetric = (metricKey) => {
@@ -253,7 +251,7 @@ export function ModelsPage() {
           subtitle="Loading model performance metrics, ROC curves, and confusion heatmaps..."
           breadcrumbs={
             <span>
-              Dashboard <span className="mx-1 text-slate-400">/</span> Models
+              Dashboard <span className="mx-1 text-tl-muted">/</span> Models
             </span>
           }
         />
@@ -290,7 +288,7 @@ export function ModelsPage() {
           subtitle="Benchmark leaderboard across classifier models."
           breadcrumbs={
             <span>
-              Dashboard <span className="mx-1 text-slate-400">/</span> Models
+              Dashboard <span className="mx-1 text-tl-muted">/</span> Models
             </span>
           }
         />
@@ -324,7 +322,7 @@ export function ModelsPage() {
         }
         breadcrumbs={
           <span>
-            Dashboard <span className="mx-1 text-slate-400">/</span> Models
+            Dashboard <span className="mx-1 text-tl-muted">/</span> Models
           </span>
         }
         actions={
@@ -346,12 +344,12 @@ export function ModelsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="p-4 border-l-4 border-l-emerald-500">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
+            <div className="p-2.5 rounded-xl bg-tl-genuine-bg text-tl-genuine">
               <Trophy className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Champion Model</p>
-              <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base flex items-center gap-1.5">
+              <p className="text-xs text-tl-muted font-medium uppercase tracking-wider">Champion Model</p>
+              <h3 className="font-bold text-tl-text text-base flex items-center gap-1.5">
                 <span>{summary.bestModel}</span>
                 <Badge variant="genuine" size="sm">Best</Badge>
               </h3>
@@ -359,14 +357,14 @@ export function ModelsPage() {
           </div>
         </Card>
 
-        <Card className="p-4 border-l-4 border-l-indigo-500">
+        <Card className="p-4 border-l-4 border-l-tl-accent">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+            <div className="p-2.5 rounded-xl bg-tl-accent-bg text-tl-accent">
               <Award className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Top F1-Score</p>
-              <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base font-mono">
+              <p className="text-xs text-tl-muted font-medium uppercase tracking-wider">Top F1-Score</p>
+              <h3 className="font-bold text-tl-text text-base font-mono">
                 {(summary.bestF1 * 100).toFixed(1)}% ({summary.bestF1})
               </h3>
             </div>
@@ -375,26 +373,26 @@ export function ModelsPage() {
 
         <Card className="p-4 border-l-4 border-l-purple-500">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
+            <div className="p-2.5 rounded-xl bg-purple-50 text-purple-600">
               <Zap className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Top ROC-AUC</p>
-              <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base font-mono">
+              <p className="text-xs text-tl-muted font-medium uppercase tracking-wider">Top ROC-AUC</p>
+              <h3 className="font-bold text-tl-text text-base font-mono">
                 {summary.bestRocAuc.toFixed(3)}
               </h3>
             </div>
           </div>
         </Card>
 
-        <Card className="p-4 border-l-4 border-l-slate-400">
+        <Card className="p-4 border-l-4 border-l-tl-border">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+            <div className="p-2.5 rounded-xl bg-tl-fill text-tl-muted">
               <GitCompare className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Evaluation Set</p>
-              <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base">
+              <p className="text-xs text-tl-muted font-medium uppercase tracking-wider">Evaluation Set</p>
+              <h3 className="font-bold text-tl-text text-base">
                 {summary.evaluationDatasetSize.toLocaleString()} Reviews
               </h3>
             </div>
@@ -411,25 +409,25 @@ export function ModelsPage() {
               Click any column header to sort. Highlighted green values represent the top performer in each metric.
             </CardDescription>
           </div>
-          <span className="text-xs text-slate-400 font-medium">
-            Sorted by <strong className="text-slate-700 dark:text-slate-300 uppercase">{sortConfig.key}</strong> ({sortConfig.direction.toUpperCase()})
+          <span className="text-xs text-tl-muted font-medium">
+            Sorted by <strong className="text-tl-text uppercase">{sortConfig.key}</strong> ({sortConfig.direction.toUpperCase()})
           </span>
         </CardHeader>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider bg-slate-50/60 dark:bg-slate-800/40">
+              <tr className="border-b border-tl-border text-xs font-semibold text-tl-muted uppercase tracking-wider bg-tl-fill">
                 <th
                   onClick={() => handleSort('name')}
-                  className="py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-slate-100 transition-colors select-none"
+                  className="py-3 px-4 cursor-pointer hover:text-tl-text transition-colors select-none"
                 >
                   <div className="flex items-center gap-1.5">
                     <span>Model Architecture</span>
                     {sortConfig.key === 'name' ? (
                       sortConfig.direction === 'asc' ? <ArrowUp className="w-3.5 h-3.5" /> : <ArrowDown className="w-3.5 h-3.5" />
                     ) : (
-                      <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                      <ArrowUpDown className="w-3 h-3 text-tl-muted" />
                     )}
                   </div>
                 </th>
@@ -438,14 +436,14 @@ export function ModelsPage() {
                   <th
                     key={metric.key}
                     onClick={() => handleSort(metric.key)}
-                    className="py-3 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-slate-100 transition-colors select-none"
+                    className="py-3 px-4 text-right cursor-pointer hover:text-tl-text transition-colors select-none"
                   >
                     <div className="flex items-center justify-end gap-1.5">
                       <span>{metric.label}</span>
                       {sortConfig.key === metric.key ? (
                         sortConfig.direction === 'asc' ? <ArrowUp className="w-3.5 h-3.5" /> : <ArrowDown className="w-3.5 h-3.5" />
                       ) : (
-                        <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                        <ArrowUpDown className="w-3 h-3 text-tl-muted" />
                       )}
                     </div>
                   </th>
@@ -454,15 +452,15 @@ export function ModelsPage() {
                 <th className="py-3 px-4 text-right">Training Latency</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
+            <tbody className="divide-y divide-tl-border">
               {sortedModels.map((m) => {
                 const isChampion = m.isBest;
 
                 return (
                   <tr
                     key={m.id}
-                    className={`transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/50 ${
-                      isChampion ? 'bg-indigo-50/30 dark:bg-indigo-950/20 font-medium' : ''
+                    className={`transition-colors hover:bg-tl-fill/50 ${
+                      isChampion ? 'bg-tl-accent-bg font-medium' : ''
                     }`}
                   >
                     {/* Model Name & Badge */}
@@ -472,10 +470,10 @@ export function ModelsPage() {
                           className="w-2.5 h-2.5 rounded-full shrink-0"
                           style={{ backgroundColor: MODEL_COLORS[m.id] }}
                         />
-                        <span className="font-bold text-slate-900 dark:text-slate-100">
+                        <span className="font-bold text-tl-text">
                           {m.name}
                         </span>
-                        <span className="text-[11px] text-slate-400 hidden sm:inline">
+                        <span className="text-[11px] text-tl-muted hidden sm:inline">
                           ({m.type})
                         </span>
                         {isChampion && (
@@ -494,12 +492,12 @@ export function ModelsPage() {
                       return (
                         <td key={metric.key} className="py-3.5 px-4 text-right font-mono text-xs">
                           {isBestInCol ? (
-                            <span className="inline-flex items-center gap-1 font-bold px-2 py-0.5 rounded-md bg-emerald-100/80 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-800">
+                            <span className="inline-flex items-center gap-1 font-bold px-2 py-0.5 rounded-md bg-tl-genuine-bg text-tl-genuine border border-tl-genuine/30">
                               {(val * 100).toFixed(1)}%
                               {metric.key === 'f1' && <CheckCircle2 className="w-3 h-3 shrink-0" />}
                             </span>
                           ) : (
-                            <span className="text-slate-600 dark:text-slate-300">
+                            <span className="text-tl-muted">
                               {(val * 100).toFixed(1)}%
                             </span>
                           )}
@@ -508,7 +506,7 @@ export function ModelsPage() {
                     })}
 
                     {/* Training Latency */}
-                    <td className="py-3.5 px-4 text-right font-mono text-xs text-slate-500 dark:text-slate-400">
+                    <td className="py-3.5 px-4 text-right font-mono text-xs text-tl-muted">
                       {m.trainingTimeSeconds}s
                     </td>
                   </tr>
@@ -531,7 +529,7 @@ export function ModelsPage() {
                   Toggle individual metric chips to isolate and compare specific indicators
                 </CardDescription>
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-slate-500">
+              <div className="flex items-center gap-1.5 text-xs text-tl-muted">
                 <SlidersHorizontal className="w-3.5 h-3.5" />
                 <span>Filter Metrics</span>
               </div>
@@ -549,8 +547,8 @@ export function ModelsPage() {
                     onClick={() => handleToggleMetric(metric.key)}
                     className={`text-xs px-2.5 py-1 rounded-lg border font-medium transition-all select-none flex items-center gap-1.5 ${
                       isActive
-                        ? 'border-indigo-300 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 shadow-soft-xs'
-                        : 'border-slate-200 dark:border-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50'
+                        ? 'border-tl-accent/40 bg-tl-accent-bg text-tl-accent shadow-sm'
+                        : 'border-tl-border text-tl-muted hover:text-tl-text hover:bg-tl-fill'
                     }`}
                   >
                     <span
@@ -646,16 +644,16 @@ export function ModelsPage() {
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border border-slate-200/90 dark:border-slate-800/90 p-3 rounded-xl shadow-soft-lg text-xs space-y-1 min-w-[170px]">
-                            <p className="font-semibold text-slate-800 dark:text-slate-200 border-b border-slate-200/60 dark:border-slate-800/60 pb-1">
+                          <div className="bg-tl-card/95 backdrop-blur-sm border border-tl-border p-3 rounded-[14px] shadow-card text-xs space-y-1 min-w-[170px]">
+                            <p className="font-semibold text-tl-text border-b border-tl-border pb-1">
                               FPR: {parseFloat(label).toFixed(3)}
                             </p>
                             {payload.map((item, idx) => (
                               <div key={idx} className="flex items-center justify-between gap-2">
-                                <span className="text-slate-600 dark:text-slate-400 font-medium">
+                                <span className="text-tl-muted font-medium">
                                   {item.name.split(' (')[0]}:
                                 </span>
-                                <span className="font-mono font-bold text-slate-900 dark:text-slate-100">
+                                <span className="font-mono font-bold text-tl-text">
                                   TPR {parseFloat(item.value).toFixed(3)}
                                 </span>
                               </div>
@@ -679,8 +677,8 @@ export function ModelsPage() {
                         <span
                           className={`cursor-pointer select-none text-xs transition-opacity ${
                             isVisible
-                              ? 'font-semibold text-slate-800 dark:text-slate-200'
-                              : 'text-slate-400 line-through opacity-50'
+                              ? 'font-semibold text-tl-text'
+                              : 'text-tl-muted line-through opacity-50'
                           }`}
                         >
                           {value}
@@ -735,14 +733,14 @@ export function ModelsPage() {
 
             {/* Model Selector Dropdown */}
             <div className="flex items-center gap-2">
-              <label htmlFor="model-select" className="text-xs font-semibold text-slate-500 whitespace-nowrap">
+              <label htmlFor="model-select" className="text-xs font-semibold text-tl-muted whitespace-nowrap">
                 Select Model:
               </label>
               <select
                 id="model-select"
                 value={selectedModelId}
                 onChange={(e) => setSelectedModelId(e.target.value)}
-                className="text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-800 px-3 py-1.5 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 shadow-soft-xs"
+                className="text-xs font-semibold rounded-[10px] border border-tl-border px-3 py-1.5 bg-tl-card text-tl-text focus:outline-none focus:border-tl-accent focus:ring-1 focus:ring-tl-accent shadow-sm"
               >
                 {models.map((m) => (
                   <option key={m.id} value={m.id}>
@@ -756,8 +754,8 @@ export function ModelsPage() {
           {/* 2x2 Heatmap Grid */}
           <div className="relative pt-2">
             {confusionLoading && (
-              <div className="absolute inset-0 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xs flex items-center justify-center z-10 rounded-xl">
-                <div className="flex items-center gap-2 text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <div className="absolute inset-0 bg-tl-card/70 backdrop-blur-xs flex items-center justify-center z-10 rounded-xl">
+                <div className="flex items-center gap-2 text-xs font-semibold text-tl-accent">
                   <RefreshCw className="w-4 h-4 animate-spin" />
                   <span>Updating Matrix...</span>
                 </div>
@@ -766,65 +764,65 @@ export function ModelsPage() {
 
             <div className="grid grid-cols-2 gap-3 text-center">
               {/* Top-Left: True Negative (TN) */}
-              <div className="p-4 sm:p-5 rounded-xl border border-emerald-300 dark:border-emerald-800/80 bg-emerald-500/15 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-100 space-y-1 shadow-soft-xs">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 block">
+              <div className="p-4 sm:p-5 rounded-xl border border-emerald-300 bg-emerald-500/15 text-emerald-950 space-y-1 shadow-sm">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 block">
                   True Negative (TN)
                 </span>
-                <p className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-900 dark:text-emerald-100">
+                <p className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-900">
                   {currentConfusion.tn.toLocaleString()}
                 </p>
-                <p className="text-xs text-emerald-700 dark:text-emerald-300 font-semibold">
+                <p className="text-xs text-emerald-700 font-semibold">
                   {(currentConfusion.normalized[0][0] * 100).toFixed(1)}% of Genuine Reviews
                 </p>
-                <span className="text-[11px] text-emerald-800/70 dark:text-emerald-400/80 block pt-1">
+                <span className="text-[11px] text-emerald-800/70 block pt-1">
                   Correctly Verified Genuine
                 </span>
               </div>
 
               {/* Top-Right: False Positive (FP) */}
-              <div className="p-4 sm:p-5 rounded-xl border border-rose-300 dark:border-rose-800/80 bg-rose-500/15 dark:bg-rose-950/40 text-rose-950 dark:text-rose-100 space-y-1 shadow-soft-xs">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300 block">
+              <div className="p-4 sm:p-5 rounded-xl border border-rose-300 bg-rose-500/15 text-rose-950 space-y-1 shadow-sm">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700 block">
                   False Positive (FP)
                 </span>
-                <p className="text-2xl sm:text-3xl font-extrabold font-mono text-rose-900 dark:text-rose-100">
+                <p className="text-2xl sm:text-3xl font-extrabold font-mono text-rose-900">
                   {currentConfusion.fp.toLocaleString()}
                 </p>
-                <p className="text-xs text-rose-700 dark:text-rose-300 font-semibold">
+                <p className="text-xs text-rose-700 font-semibold">
                   {(currentConfusion.normalized[0][1] * 100).toFixed(1)}% Error Rate
                 </p>
-                <span className="text-[11px] text-rose-800/70 dark:text-rose-400/80 block pt-1">
+                <span className="text-[11px] text-rose-800/70 block pt-1">
                   Wrongly Flagged as Fake
                 </span>
               </div>
 
               {/* Bottom-Left: False Negative (FN) */}
-              <div className="p-4 sm:p-5 rounded-xl border border-amber-300 dark:border-amber-800/80 bg-amber-500/15 dark:bg-amber-950/40 text-amber-950 dark:text-amber-100 space-y-1 shadow-soft-xs">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300 block">
+              <div className="p-4 sm:p-5 rounded-xl border border-amber-300 bg-amber-500/15 text-amber-950 space-y-1 shadow-sm">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700 block">
                   False Negative (FN)
                 </span>
-                <p className="text-2xl sm:text-3xl font-extrabold font-mono text-amber-900 dark:text-amber-100">
+                <p className="text-2xl sm:text-3xl font-extrabold font-mono text-amber-900">
                   {currentConfusion.fn.toLocaleString()}
                 </p>
-                <p className="text-xs text-amber-700 dark:text-amber-300 font-semibold">
+                <p className="text-xs text-amber-700 font-semibold">
                   {(currentConfusion.normalized[1][0] * 100).toFixed(1)}% Escape Rate
                 </p>
-                <span className="text-[11px] text-amber-800/70 dark:text-amber-400/80 block pt-1">
+                <span className="text-[11px] text-amber-800/70 block pt-1">
                   Stealth Fakes Missed
                 </span>
               </div>
 
               {/* Bottom-Right: True Positive (TP) */}
-              <div className="p-4 sm:p-5 rounded-xl border border-emerald-400 dark:border-emerald-700 bg-emerald-500/25 dark:bg-emerald-950/60 text-emerald-950 dark:text-emerald-100 space-y-1 shadow-soft-xs">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 block">
+              <div className="p-4 sm:p-5 rounded-xl border border-emerald-400 bg-emerald-500/25 text-emerald-950 space-y-1 shadow-sm">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 block">
                   True Positive (TP)
                 </span>
-                <p className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-900 dark:text-emerald-100">
+                <p className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-900">
                   {currentConfusion.tp.toLocaleString()}
                 </p>
-                <p className="text-xs text-emerald-700 dark:text-emerald-300 font-semibold">
+                <p className="text-xs text-emerald-700 font-semibold">
                   {(currentConfusion.normalized[1][1] * 100).toFixed(1)}% of Fake Reviews
                 </p>
-                <span className="text-[11px] text-emerald-800/70 dark:text-emerald-400/80 block pt-1">
+                <span className="text-[11px] text-emerald-800/70 block pt-1">
                   Correctly Caught Fake
                 </span>
               </div>
@@ -832,7 +830,7 @@ export function ModelsPage() {
           </div>
 
           {/* Plain-Language Captions Below Grid */}
-          <div className="pt-2 border-t border-slate-100 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-500 dark:text-slate-400">
+          <div className="pt-2 border-t border-tl-border grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-tl-muted">
             <div className="flex items-start gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1 shrink-0" />
               <p>
@@ -862,18 +860,18 @@ export function ModelsPage() {
 
         {/* Right: Model Insight Card (5 cols) */}
         {modelInsight && (
-          <Card className="lg:col-span-5 p-5 space-y-4 border-l-4 border-l-indigo-500">
+          <Card className="lg:col-span-5 p-5 space-y-4 border-l-4 border-l-tl-accent">
             <div className="flex items-center gap-2">
-              <Trophy className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">
+              <Trophy className="w-4 h-4 text-tl-accent" />
+              <h3 className="text-sm font-bold text-tl-text uppercase tracking-wide">
                 Model Insight & Trade-off Analysis
               </h3>
             </div>
 
-            <div className="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            <div className="space-y-3 text-xs sm:text-sm text-tl-muted leading-relaxed">
               <p>
                 <strong>Champion Model Verdict:</strong>{' '}
-                <span className="text-emerald-600 dark:text-emerald-400 font-bold">
+                <span className="text-tl-genuine font-bold">
                   {modelInsight.championName}
                 </span>{' '}
                 achieves the top overall performance with an F1-Score of{' '}
@@ -881,21 +879,21 @@ export function ModelsPage() {
                 <strong>{modelInsight.championAuc}</strong>.
               </p>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800 space-y-1.5">
-                <span className="text-[11px] font-bold uppercase text-slate-400 tracking-wider block">
+              <div className="p-3 rounded-xl bg-tl-fill border border-tl-border space-y-1.5">
+                <span className="text-[11px] font-bold uppercase text-tl-muted tracking-wider block">
                   Precision vs Recall Balance
                 </span>
                 <p className="text-xs">
                   {modelInsight.championName} maintains balanced precision ({modelInsight.championPrecision}%) and recall ({modelInsight.championRecall}%), producing only{' '}
-                  <strong className="text-slate-800 dark:text-slate-200 font-mono">
+                  <strong className="text-tl-text font-mono">
                     {modelInsight.totalErrors} total errors
                   </strong>{' '}
                   across the 10,000 test reviews (205 FPs vs 167 FNs).
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800 space-y-1.5">
-                <span className="text-[11px] font-bold uppercase text-slate-400 tracking-wider block">
+              <div className="p-3 rounded-xl bg-tl-fill border border-tl-border space-y-1.5">
+                <span className="text-[11px] font-bold uppercase text-tl-muted tracking-wider block">
                   Operational Trade-off
                 </span>
                 <p className="text-xs">
@@ -905,11 +903,11 @@ export function ModelsPage() {
               </div>
             </div>
 
-            <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+            <div className="pt-2 border-t border-tl-border flex items-center justify-between text-xs text-tl-muted">
               <span className="inline-flex items-center gap-1 font-medium">
-                <Clock className="w-3.5 h-3.5 text-slate-400" /> Latency Optimized
+                <Clock className="w-3.5 h-3.5 text-tl-muted" /> Latency Optimized
               </span>
-              <span className="font-semibold text-indigo-600 dark:text-indigo-400">
+              <span className="font-semibold text-tl-accent">
                 Selected: {currentModelObj.name}
               </span>
             </div>

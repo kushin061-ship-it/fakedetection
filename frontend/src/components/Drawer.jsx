@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
-import clsx from 'clsx';
+import { cn } from '../utils/cn';
 
 /**
  * Reusable side panel Drawer component
@@ -21,7 +21,6 @@ export function Drawer({
 }) {
   const drawerRef = useRef(null);
 
-  // Close on Escape key press & prevent background scroll
   useEffect(() => {
     if (!isOpen) return;
 
@@ -33,7 +32,6 @@ export function Drawer({
 
     window.addEventListener('keydown', handleKeyDown);
 
-    // Save previous overflow style to restore
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
@@ -53,11 +51,6 @@ export function Drawer({
     full: 'max-w-full',
   };
 
-  const sideClasses = {
-    right: 'right-0 slide-in-from-right',
-    left: 'left-0 slide-in-from-left',
-  };
-
   return (
     <div
       className="fixed inset-0 z-50 overflow-hidden"
@@ -67,32 +60,32 @@ export function Drawer({
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-900/60 dark:bg-slate-950/80 backdrop-blur-sm transition-opacity duration-300 animate-fade-in"
+        className="fixed inset-0 bg-black/20 backdrop-blur-sm transition-opacity duration-300"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Drawer Container */}
-      <div className={clsx('fixed inset-y-0 flex max-w-full', side === 'right' ? 'right-0' : 'left-0')}>
+      <div className={cn('fixed inset-y-0 flex max-w-full', side === 'right' ? 'right-0' : 'left-0')}>
         <div
           ref={drawerRef}
-          className={clsx(
-            'w-screen bg-white dark:bg-slate-900 shadow-2xl flex flex-col h-full border-l border-slate-200 dark:border-slate-800 transition-transform duration-300 ease-in-out',
+          className={cn(
+            'w-screen bg-tl-card shadow-xl flex flex-col h-full border-l border-tl-border transition-transform duration-300 ease-in-out',
+            side === 'right' ? 'rounded-l-2xl' : 'rounded-r-2xl',
             sizeClasses[size] || sizeClasses.md,
-            sideClasses[side] || sideClasses.right,
             className
           )}
         >
           {/* Header */}
-          <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm shrink-0">
+          <div className="px-6 py-4 border-b border-tl-border flex items-center justify-between shrink-0">
             <div>
               {title && (
-                <h2 id="drawer-title" className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                <h2 id="drawer-title" className="text-lg font-semibold text-tl-text">
                   {title}
                 </h2>
               )}
               {subtitle && (
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                <p className="text-xs text-tl-muted mt-0.5">
                   {subtitle}
                 </p>
               )}
@@ -100,7 +93,7 @@ export function Drawer({
             <button
               type="button"
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="p-2 rounded-[10px] text-tl-muted hover:text-tl-text hover:bg-tl-fill transition-colors duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-tl-accent"
               aria-label="Close drawer"
             >
               <X className="w-5 h-5" />
@@ -114,7 +107,7 @@ export function Drawer({
 
           {/* Optional Footer */}
           {footer && (
-            <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 shrink-0">
+            <div className="px-6 py-4 border-t border-tl-border bg-tl-fill shrink-0 rounded-b-2xl">
               {footer}
             </div>
           )}

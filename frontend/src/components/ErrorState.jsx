@@ -18,17 +18,17 @@ export function ErrorState({
       role="alert"
       className={cn(
         'flex flex-col items-center justify-center text-center p-8 md:p-10',
-        'rounded-xl border border-rose-200 dark:border-rose-900/60 bg-rose-50/40 dark:bg-rose-950/20',
+        'rounded-[14px] border border-tl-border bg-tl-fake-bg/40',
         className
       )}
     >
-      <div className="flex h-13 w-13 items-center justify-center rounded-2xl bg-rose-100 dark:bg-rose-900/60 text-rose-600 dark:text-rose-400 mb-4 shadow-soft-xs">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-tl-fake-bg text-tl-fake mb-4">
         <Icon className="h-6 w-6" />
       </div>
-      <h3 className="text-base font-semibold text-rose-900 dark:text-rose-200 mb-1">
+      <h3 className="text-lg font-semibold text-tl-text mb-1">
         {title}
       </h3>
-      <p className="max-w-md text-sm text-rose-700/80 dark:text-rose-300/80 mb-6">
+      <p className="max-w-md text-sm text-tl-muted mb-6">
         {message}
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">

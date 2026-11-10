@@ -1,9 +1,3 @@
-export { default as OverviewPage } from './OverviewPage';
-export { default as PredictPage } from './PredictPage';
-export { default as ModelsPage } from './ModelsPage';
-export { default as ErrorsPage } from './ErrorsPage';
+export { default as DetectPage } from './DetectPage';
 export { default as ExplainabilityPage } from './ExplainabilityPage';
-export { default as PatternsPage } from './PatternsPage';
-export { default as BatchPage } from './BatchPage';
-export { default as NotFoundPage } from './NotFoundPage';
-export { default as DesignCheckPage } from './DesignCheckPage';
+export { default as ModelsPage } from './ModelsPage';

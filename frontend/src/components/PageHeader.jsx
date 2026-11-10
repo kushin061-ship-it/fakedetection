@@ -12,24 +12,24 @@ export function PageHeader({
   return (
     <div
       className={cn(
-        'flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-slate-200/80 dark:border-slate-800/80 mb-6',
+        'flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-tl-border mb-6',
         className
       )}
     >
       <div className="space-y-1.5 min-w-0">
         {breadcrumbs && (
-          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-1">
+          <div className="flex items-center gap-2 text-xs text-tl-muted mb-1">
             {breadcrumbs}
           </div>
         )}
         <div className="flex items-center gap-3 flex-wrap">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+          <h1 className="text-2xl font-bold text-tl-text">
             {title}
           </h1>
           {badge && <div>{badge}</div>}
         </div>
         {subtitle && (
-          <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 max-w-3xl">
+          <p className="text-sm text-tl-muted mt-1 max-w-3xl">
             {subtitle}
           </p>
         )}

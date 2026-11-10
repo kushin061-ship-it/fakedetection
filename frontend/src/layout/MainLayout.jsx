@@ -1,49 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import Topbar from './Topbar';
-import Footer from './Footer';
 
-export function MainLayout() {
-  const [isCollapsed, setIsCollapsed] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return localStorage.getItem('sidebar_collapsed') === 'true';
-  });
-
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem('sidebar_collapsed', String(isCollapsed));
-  }, [isCollapsed]);
-
-  const toggleCollapse = () => setIsCollapsed((prev) => !prev);
-
+export default function MainLayout() {
   return (
-    <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 antialiased">
-      {/* Sidebar (Desktop collapsible + Mobile drawer) */}
-      <Sidebar
-        isCollapsed={isCollapsed}
-        toggleCollapse={toggleCollapse}
-        isMobileOpen={isMobileOpen}
-        closeMobile={() => setIsMobileOpen(false)}
-      />
+    <div className="flex flex-col md:flex-row min-h-screen bg-tl-bg">
+      {/* Sidebar renders desktop sidebar + mobile top bar internally */}
+      <Sidebar />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
-        <Topbar
-          onOpenMobile={() => setIsMobileOpen(true)}
-          isCollapsed={isCollapsed}
-          toggleCollapse={toggleCollapse}
-        />
-
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      {/* Main content area */}
+      <main className="flex-1 md:ml-[220px] min-h-screen bg-tl-bg px-6 lg:px-10 py-8">
+        <div className="max-w-5xl mx-auto w-full">
           <Outlet />
-        </main>
-
-        <Footer />
-      </div>
+        </div>
+      </main>
     </div>
   );
 }
-
-export default MainLayout;

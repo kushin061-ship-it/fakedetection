@@ -2,21 +2,10 @@ import React from 'react';
 import { cn } from '../utils/cn';
 import Spinner from './Spinner';
 
-const variantStyles = {
-  primary:
-    'bg-indigo-600 text-white shadow-soft-sm hover:bg-indigo-700 active:bg-indigo-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 focus-visible:ring-indigo-500',
-  secondary:
-    'bg-white text-slate-800 border border-slate-300 shadow-soft-xs hover:bg-slate-50 hover:text-slate-900 active:bg-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-750 dark:hover:text-white focus-visible:ring-slate-400',
-  ghost:
-    'bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-900 active:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white focus-visible:ring-slate-400',
-  danger:
-    'bg-rose-600 text-white shadow-soft-sm hover:bg-rose-700 active:bg-rose-800 dark:bg-rose-600 dark:hover:bg-rose-500 focus-visible:ring-rose-500',
-};
-
 const sizeStyles = {
-  sm: 'text-xs px-3 py-1.5 rounded-lg gap-1.5',
-  md: 'text-sm px-4 py-2 rounded-xl gap-2',
-  lg: 'text-base px-5 py-2.5 rounded-xl gap-2.5',
+  sm: 'text-xs px-3 py-1.5 rounded-[10px] gap-1.5',
+  md: 'text-sm px-4 py-2 rounded-[10px] gap-2',
+  lg: 'text-sm px-5 py-2.5 rounded-[10px] gap-2.5',
 };
 
 export function Button({
@@ -34,18 +23,39 @@ export function Button({
 }) {
   const isDisabled = disabled || isLoading;
 
+  const getVariantClasses = () => {
+    switch (variant) {
+      case 'primary':
+        return 'text-white font-semibold shadow-btn motion-safe:hover:shadow-btn-hover motion-safe:hover:-translate-y-0.5 transition-all duration-200 ease-out focus-visible:ring-[#3A78F2]';
+      case 'secondary':
+        return 'bg-tl-fill border border-tl-border text-tl-text hover:bg-tl-bg transition-all duration-200 ease-out focus-visible:ring-tl-accent';
+      case 'ghost':
+        return 'bg-transparent text-tl-muted hover:bg-tl-fill transition-all duration-200 ease-out focus-visible:ring-tl-accent';
+      case 'danger':
+        return 'bg-tl-fake-bg text-tl-fake hover:bg-[rgba(224,90,90,0.22)] transition-all duration-200 ease-out focus-visible:ring-tl-fake';
+      default:
+        return 'text-white font-semibold shadow-btn motion-safe:hover:shadow-btn-hover motion-safe:hover:-translate-y-0.5 transition-all duration-200 ease-out focus-visible:ring-[#3A78F2]';
+    }
+  };
+
+  const primaryGradientStyle =
+    variant === 'primary' || (variant !== 'secondary' && variant !== 'ghost' && variant !== 'danger')
+      ? { background: 'linear-gradient(135deg, #3A78F2, #74A6FF)' }
+      : undefined;
+
   return (
     <button
       type={type}
       disabled={isDisabled}
       className={cn(
-        'inline-flex items-center justify-center font-medium transition-all duration-150',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900',
+        'inline-flex items-center justify-center font-medium',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
         'disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed',
-        variantStyles[variant] || variantStyles.primary,
+        getVariantClasses(),
         sizeStyles[size] || sizeStyles.md,
         className
       )}
+      style={primaryGradientStyle}
       {...props}
     >
       {isLoading ? (

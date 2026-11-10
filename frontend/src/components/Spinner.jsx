@@ -4,14 +4,14 @@ import { cn } from '../utils/cn';
 const sizeMap = {
   sm: 'w-4 h-4 border-2',
   md: 'w-5 h-5 border-2',
-  lg: 'w-8 h-8 border-3',
+  lg: 'w-8 h-8 border-[3px]',
   xl: 'w-12 h-12 border-4',
 };
 
 const colorMap = {
-  primary: 'border-indigo-600 border-t-transparent dark:border-indigo-400 dark:border-t-transparent',
-  fake: 'border-rose-600 border-t-transparent dark:border-rose-400 dark:border-t-transparent',
-  genuine: 'border-emerald-600 border-t-transparent dark:border-emerald-400 dark:border-t-transparent',
+  primary: 'border-tl-accent border-t-transparent',
+  fake: 'border-tl-fake border-t-transparent',
+  genuine: 'border-tl-genuine border-t-transparent',
   white: 'border-white border-t-transparent',
   current: 'border-current border-t-transparent',
 };

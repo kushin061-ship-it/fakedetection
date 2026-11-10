@@ -11,7 +11,7 @@ import { cn } from '../utils/cn';
 import EmptyState from './EmptyState';
 
 export function DataTable({
-  columns = [], // [{ key, label, sortable, render: (row) => node, width, align }]
+  columns = [],
   data = [],
   searchable = true,
   searchPlaceholder = 'Search reviews, products, IDs...',
@@ -23,7 +23,7 @@ export function DataTable({
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortKey, setSortKey] = useState(null);
-  const [sortOrder, setSortOrder] = useState('asc'); // 'asc' | 'desc'
+  const [sortOrder, setSortOrder] = useState('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(defaultPageSize);
 
@@ -41,7 +41,6 @@ export function DataTable({
     }
   };
 
-  // Filtered data based on search query
   const filteredData = useMemo(() => {
     if (!searchQuery.trim()) return data;
     const query = searchQuery.toLowerCase();
@@ -59,7 +58,6 @@ export function DataTable({
     });
   }, [data, searchQuery]);
 
-  // Sorted data
   const sortedData = useMemo(() => {
     if (!sortKey) return filteredData;
 
@@ -83,7 +81,6 @@ export function DataTable({
     });
   }, [filteredData, sortKey, sortOrder]);
 
-  // Paginated slice
   const totalItems = sortedData.length;
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
   const validCurrentPage = Math.min(currentPage, totalPages);
@@ -99,7 +96,7 @@ export function DataTable({
       {searchable && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-tl-muted" />
             <input
               type="text"
               value={searchQuery}
@@ -108,11 +105,11 @@ export function DataTable({
                 setCurrentPage(1);
               }}
               placeholder={searchPlaceholder}
-              className="w-full pl-9 pr-4 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all text-slate-900 dark:text-slate-100 placeholder-slate-400"
+              className="w-full pl-9 pr-4 py-2 text-sm bg-tl-fill border border-tl-border rounded-[10px] focus:outline-none focus:ring-2 focus:ring-tl-accent/30 focus:border-tl-accent transition-all duration-200 ease-out text-tl-text placeholder-tl-muted"
             />
           </div>
 
-          <div className="flex items-center gap-2 self-end sm:self-auto text-xs text-slate-500 dark:text-slate-400">
+          <div className="flex items-center gap-2 self-end sm:self-auto text-xs text-tl-muted">
             <span>Show</span>
             <select
               value={pageSize}
@@ -120,7 +117,7 @@ export function DataTable({
                 setPageSize(Number(e.target.value));
                 setCurrentPage(1);
               }}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500 cursor-pointer"
+              className="bg-tl-fill border border-tl-border rounded-[10px] px-2.5 py-1.5 text-xs text-tl-text focus:outline-none focus:ring-1 focus:ring-tl-accent cursor-pointer"
             >
               {pageSizeOptions.map((sz) => (
                 <option key={sz} value={sz}>
@@ -133,10 +130,10 @@ export function DataTable({
       )}
 
       {/* Table Container */}
-      <div className="overflow-x-auto rounded-xl border border-slate-200/90 dark:border-slate-800/80 bg-white dark:bg-slate-900 shadow-soft-sm">
+      <div className="overflow-x-auto rounded-[14px] border border-tl-border bg-tl-card shadow-card overflow-hidden">
         <table className="w-full text-left text-sm border-collapse">
           <thead>
-            <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 text-slate-600 dark:text-slate-300 font-semibold text-xs tracking-wider uppercase">
+            <tr className="bg-tl-fill text-[11px] uppercase tracking-wider font-semibold text-tl-muted">
               {columns.map((col) => {
                 const isSorted = sortKey === col.key;
                 return (
@@ -145,11 +142,11 @@ export function DataTable({
                     style={{ width: col.width }}
                     onClick={() => col.sortable !== false && handleSort(col.key)}
                     className={cn(
-                      'px-5 py-3.5 select-none transition-colors',
+                      'px-5 py-3.5 select-none transition-colors duration-200 ease-out',
                       col.align === 'right' && 'text-right',
                       col.align === 'center' && 'text-center',
                       col.sortable !== false
-                        ? 'cursor-pointer hover:bg-slate-100/70 dark:hover:bg-slate-800/60'
+                        ? 'cursor-pointer hover:bg-tl-bg'
                         : 'cursor-default'
                     )}
                   >
@@ -162,12 +159,12 @@ export function DataTable({
                     >
                       <span>{col.label}</span>
                       {col.sortable !== false && (
-                        <span className="text-slate-400 dark:text-slate-500">
+                        <span className="text-tl-muted">
                           {isSorted ? (
                             sortOrder === 'asc' ? (
-                              <ChevronUp className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                              <ChevronUp className="w-3.5 h-3.5 text-tl-accent" />
                             ) : (
-                              <ChevronDown className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                              <ChevronDown className="w-3.5 h-3.5 text-tl-accent" />
                             )
                           ) : (
                             <ChevronsUpDown className="w-3.5 h-3.5 opacity-50" />
@@ -180,16 +177,16 @@ export function DataTable({
               })}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-300">
+          <tbody className="text-tl-text">
             {paginatedData.length > 0 ? (
               paginatedData.map((row, idx) => (
                 <tr
                   key={row.id || idx}
                   onClick={() => onRowClick && onRowClick(row)}
                   className={cn(
-                    'transition-colors duration-150',
-                    onRowClick && 'cursor-pointer hover:bg-slate-50/90 dark:hover:bg-slate-800/50',
-                    !onRowClick && 'hover:bg-slate-50/50 dark:hover:bg-slate-850/40'
+                    'border-b border-tl-border last:border-0 transition-colors duration-150',
+                    onRowClick && 'cursor-pointer hover:bg-tl-fill/50',
+                    !onRowClick && 'hover:bg-tl-fill/50'
                   )}
                 >
                   {columns.map((col) => (
@@ -226,18 +223,18 @@ export function DataTable({
 
       {/* Pagination Footer */}
       {totalItems > 0 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-1 text-xs text-slate-500 dark:text-slate-400">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-1 text-xs text-tl-muted">
           <div>
             Showing{' '}
-            <span className="font-semibold text-slate-700 dark:text-slate-200">
+            <span className="font-semibold text-tl-text">
               {(validCurrentPage - 1) * pageSize + 1}
             </span>{' '}
             to{' '}
-            <span className="font-semibold text-slate-700 dark:text-slate-200">
+            <span className="font-semibold text-tl-text">
               {Math.min(validCurrentPage * pageSize, totalItems)}
             </span>{' '}
             of{' '}
-            <span className="font-semibold text-slate-700 dark:text-slate-200">
+            <span className="font-semibold text-tl-text">
               {totalItems}
             </span>{' '}
             results
@@ -247,7 +244,7 @@ export function DataTable({
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={validCurrentPage <= 1}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-[10px] border border-tl-border hover:bg-tl-fill disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-200 ease-out"
               aria-label="Previous Page"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -261,10 +258,10 @@ export function DataTable({
                   key={pageNum}
                   onClick={() => setCurrentPage(pageNum)}
                   className={cn(
-                    'min-w-8 h-8 px-2 rounded-lg font-medium transition-colors text-xs',
+                    'min-w-8 h-8 px-2 rounded-[10px] font-medium transition-colors duration-200 ease-out text-xs',
                     isCurrent
-                      ? 'bg-indigo-600 text-white font-semibold'
-                      : 'border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                      ? 'bg-tl-accent text-white font-semibold'
+                      : 'border border-tl-border hover:bg-tl-fill text-tl-text'
                   )}
                 >
                   {pageNum}
@@ -275,7 +272,7 @@ export function DataTable({
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={validCurrentPage >= totalPages}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-[10px] border border-tl-border hover:bg-tl-fill disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-200 ease-out"
               aria-label="Next Page"
             >
               <ChevronRight className="w-4 h-4" />

@@ -19,7 +19,8 @@ export function formatCompactNumber(number) {
 }
 
 /**
- * Returns risk level category and colors based on probability
+ * Returns risk level category and colors based on probability.
+ * Uses TrustLens design-system tokens only (no dark mode).
  */
 export function getRiskLevel(probability) {
   const prob = probability > 1 ? probability / 100 : probability;
@@ -27,28 +28,37 @@ export function getRiskLevel(probability) {
     return {
       label: 'High Risk (Fake)',
       variant: 'fake',
-      color: 'rose',
-      textColor: 'text-rose-600 dark:text-rose-400',
-      bgColor: 'bg-rose-50 dark:bg-rose-950/40',
-      borderColor: 'border-rose-200 dark:border-rose-800',
+      color: '#E05A5A',
+      textColor: 'text-tl-fake',
+      bgColor: 'bg-tl-fake-bg',
+      borderColor: 'border-tl-fake/30',
+      inlineColor: '#E05A5A',
+      inlineBg: 'rgba(224,90,90,0.14)',
+      inlineBorder: 'rgba(224,90,90,0.3)',
     };
   }
   if (prob >= 0.4) {
     return {
       label: 'Suspicious / Moderate',
       variant: 'warning',
-      color: 'amber',
-      textColor: 'text-amber-600 dark:text-amber-400',
-      bgColor: 'bg-amber-50 dark:bg-amber-950/40',
-      borderColor: 'border-amber-200 dark:border-amber-800',
+      color: '#E8A838',
+      textColor: 'text-tl-warning',
+      bgColor: 'bg-tl-warning-bg',
+      borderColor: 'border-tl-warning/30',
+      inlineColor: '#E8A838',
+      inlineBg: 'rgba(232,168,56,0.14)',
+      inlineBorder: 'rgba(232,168,56,0.3)',
     };
   }
   return {
     label: 'Genuine / Low Risk',
     variant: 'genuine',
-    color: 'emerald',
-    textColor: 'text-emerald-600 dark:text-emerald-400',
-    bgColor: 'bg-emerald-50 dark:bg-emerald-950/40',
-    borderColor: 'border-emerald-200 dark:border-emerald-800',
+    color: '#2FAE7A',
+    textColor: 'text-tl-genuine',
+    bgColor: 'bg-tl-genuine-bg',
+    borderColor: 'border-tl-genuine/30',
+    inlineColor: '#2FAE7A',
+    inlineBg: 'rgba(47,174,122,0.14)',
+    inlineBorder: 'rgba(47,174,122,0.3)',
   };
 }

@@ -2,28 +2,25 @@ import React from 'react';
 import { cn } from '../utils/cn';
 
 const variantStyles = {
-  // Required variants
-  fake: 'bg-rose-50 text-rose-700 border-rose-200/80 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-900/60',
-  genuine: 'bg-emerald-50 text-emerald-700 border-emerald-200/80 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900/60',
-  warning: 'bg-amber-50 text-amber-700 border-amber-200/80 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-900/60',
-  neutral: 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700',
-  
-  // Feature-group & brand variants
-  primary: 'bg-indigo-50 text-indigo-700 border-indigo-200/80 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-900/60',
-  textual: 'bg-blue-50 text-blue-700 border-blue-200/80 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-900/60',
-  behavioral: 'bg-amber-50 text-amber-800 border-amber-300/80 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800/60',
-  temporal: 'bg-purple-50 text-purple-700 border-purple-200/80 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-900/60',
+  fake: 'text-tl-fake bg-tl-fake-bg',
+  genuine: 'text-tl-genuine bg-tl-genuine-bg',
+  warning: 'text-tl-warning bg-tl-warning-bg',
+  neutral: 'text-tl-muted bg-tl-fill',
+  primary: 'text-tl-accent bg-tl-accent-bg',
+  textual: 'bg-tl-accent-bg text-tl-accent',
+  behavioral: 'bg-tl-warning-bg text-tl-warning',
+  temporal: 'text-[#8B5CF6] bg-[rgba(139,92,246,0.14)]',
 };
 
 const dotStyles = {
-  fake: 'bg-rose-500',
-  genuine: 'bg-emerald-500',
-  warning: 'bg-amber-500',
-  neutral: 'bg-slate-400',
-  primary: 'bg-indigo-500',
-  textual: 'bg-blue-500',
-  behavioral: 'bg-amber-500',
-  temporal: 'bg-purple-500',
+  fake: 'bg-tl-fake',
+  genuine: 'bg-tl-genuine',
+  warning: 'bg-tl-warning',
+  neutral: 'bg-tl-muted',
+  primary: 'bg-tl-accent',
+  textual: 'bg-tl-accent',
+  behavioral: 'bg-tl-warning',
+  temporal: 'bg-[#8B5CF6]',
 };
 
 const sizeStyles = {
@@ -44,7 +41,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        'inline-flex items-center font-medium rounded-full border transition-colors select-none',
+        'inline-flex items-center font-semibold rounded-[10px] select-none transition-colors duration-200 ease-out',
         variantStyles[variant] || variantStyles.neutral,
         sizeStyles[size] || sizeStyles.md,
         className

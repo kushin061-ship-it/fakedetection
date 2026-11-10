@@ -27,7 +27,6 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { getGlobalExplain, useApi } from '../api';
-import { useDarkMode } from '../hooks/useDarkMode';
 import PageHeader from '../components/PageHeader';
 import Card, { CardHeader, CardTitle, CardDescription, CardContent } from '../components/Card';
 import StatCard from '../components/StatCard';
@@ -50,7 +49,7 @@ const GROUP_ICONS = {
 };
 
 /**
- * Custom dark-mode aware tooltip for Horizontal Bar Chart
+ * Custom TrustLens tooltip for Horizontal Bar Chart
  */
 function ShapBarTooltip({ active, payload }) {
   if (active && payload && payload.length) {
@@ -58,9 +57,9 @@ function ShapBarTooltip({ active, payload }) {
     const groupColor = GROUP_COLORS[data.group] || '#6366f1';
 
     return (
-      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border border-slate-200/90 dark:border-slate-800/90 p-3.5 rounded-xl shadow-soft-lg text-xs space-y-1.5 max-w-xs z-50">
-        <div className="flex items-center justify-between gap-2 border-b border-slate-200/60 dark:border-slate-800/60 pb-1.5">
-          <span className="font-bold text-slate-900 dark:text-slate-100 truncate">
+      <div className="bg-tl-card/95 backdrop-blur-sm border border-tl-border p-3.5 rounded-[14px] shadow-card text-xs space-y-1.5 max-w-xs z-50">
+        <div className="flex items-center justify-between gap-2 border-b border-tl-border pb-1.5">
+          <span className="font-bold text-tl-text truncate">
             #{data.rank} {data.displayName || data.name}
           </span>
           <span
@@ -71,15 +70,15 @@ function ShapBarTooltip({ active, payload }) {
           </span>
         </div>
         <div className="flex items-center justify-between pt-1">
-          <span className="text-slate-500 dark:text-slate-400">Mean |SHAP| Impact:</span>
-          <span className="font-mono font-bold text-slate-900 dark:text-slate-50">
+          <span className="text-tl-muted">Mean |SHAP| Impact:</span>
+          <span className="font-mono font-bold text-tl-text">
             {data.mean_abs_shap?.toFixed(3)}
           </span>
         </div>
-        <div className="text-[11px] text-slate-600 dark:text-slate-300 pt-1 leading-snug">
+        <div className="text-[11px] text-tl-muted pt-1 leading-snug">
           {data.description}
         </div>
-        <div className="text-[11px] font-medium text-indigo-600 dark:text-indigo-400 pt-0.5">
+        <div className="text-[11px] font-medium text-tl-accent pt-0.5">
           {data.direction}
         </div>
       </div>
@@ -95,23 +94,23 @@ function DonutTooltip({ active, payload }) {
   if (active && payload && payload.length) {
     const item = payload[0];
     return (
-      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border border-slate-200/90 dark:border-slate-800/90 p-3 rounded-xl shadow-soft-lg text-xs space-y-1 min-w-[140px]">
+      <div className="bg-tl-card/95 backdrop-blur-sm border border-tl-border p-3 rounded-[14px] shadow-card text-xs space-y-1 min-w-[140px]">
         <div className="flex items-center gap-1.5">
           <span
             className="w-2.5 h-2.5 rounded-full shrink-0"
             style={{ backgroundColor: item.payload.color || item.color }}
           />
-          <span className="font-bold text-slate-900 dark:text-slate-100">
+          <span className="font-bold text-tl-text">
             {item.name}
           </span>
         </div>
-        <div className="flex items-center justify-between gap-3 text-slate-600 dark:text-slate-300 pt-1">
+        <div className="flex items-center justify-between gap-3 text-tl-muted pt-1">
           <span>Importance:</span>
-          <span className="font-mono font-bold text-slate-900 dark:text-slate-50">
+          <span className="font-mono font-bold text-tl-text">
             {item.value?.toFixed(1)}%
           </span>
         </div>
-        <div className="flex items-center justify-between gap-3 text-slate-500 text-[11px]">
+        <div className="flex items-center justify-between gap-3 text-tl-muted text-[11px]">
           <span>Total SHAP:</span>
           <span className="font-mono">
             {item.payload.totalMeanShap?.toFixed(3)}
@@ -125,7 +124,6 @@ function DonutTooltip({ active, payload }) {
 
 export function ExplainabilityPage() {
   const { data: explainData, loading, error, refetch } = useApi(getGlobalExplain, []);
-  const { isDark } = useDarkMode();
 
   // Filter state for top features: 'all' | 'textual' | 'behavioral' | 'temporal'
   const [selectedGroup, setSelectedGroup] = useState('all');
@@ -140,9 +138,9 @@ export function ExplainabilityPage() {
   // Collapsible state for "How to read this" card
   const [isGuideOpen, setIsGuideOpen] = useState(true);
 
-  // Styling tokens for charts
-  const gridColor = isDark ? '#334155' : '#e2e8f0';
-  const axisColor = isDark ? '#94a3b8' : '#64748b';
+  // TrustLens chart styling tokens
+  const gridColor = '#E6ECF5';
+  const axisColor = '#6B7A93';
 
   // Filtered top features for chart display
   const chartFeatures = useMemo(() => {
@@ -270,33 +268,33 @@ export function ExplainabilityPage() {
         }
         breadcrumbs={
           <span>
-            Dashboard <span className="mx-1 text-slate-400">/</span> Explainability
+            Dashboard <span className="mx-1 text-tl-muted">/</span> Explainability
           </span>
         }
       />
 
       {/* 1. Collapsible 'How to read this' Guide Card */}
-      <Card className="border-indigo-100 dark:border-indigo-950/60 bg-gradient-to-br from-indigo-50/50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-900/90 dark:to-indigo-950/20 shadow-soft-sm">
+      <Card className="border-tl-accent/20 bg-tl-fill shadow-card">
         <div
           className="p-5 flex items-center justify-between cursor-pointer select-none"
           onClick={() => setIsGuideOpen((prev) => !prev)}
         >
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400">
+            <div className="p-2.5 rounded-xl bg-tl-accent-bg text-tl-accent">
               <HelpCircle className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100">
+              <h3 className="text-sm sm:text-base font-bold text-tl-text">
                 How to Read SHAP Feature Attributions
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-tl-muted">
                 Understanding Shapley Additive Explanations and model association limits
               </p>
             </div>
           </div>
           <button
             type="button"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+            className="p-1.5 rounded-lg text-tl-muted hover:text-tl-text transition-colors"
             aria-label={isGuideOpen ? 'Collapse guide' : 'Expand guide'}
           >
             {isGuideOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -304,11 +302,11 @@ export function ExplainabilityPage() {
         </div>
 
         {isGuideOpen && (
-          <div className="px-5 pb-5 pt-1 border-t border-indigo-100/60 dark:border-indigo-950/40 text-xs sm:text-sm text-slate-600 dark:text-slate-300 space-y-3">
+          <div className="px-5 pb-5 pt-1 border-t border-tl-border text-xs sm:text-sm text-tl-muted space-y-3">
             <p>
               <strong>What is SHAP?</strong> SHAP (Shapley Additive exPlanations) connects cooperative game theory with optimal credit allocation. The <em>Mean |SHAP|</em> value indicates how much each feature alters the model&apos;s decision boundary away from the baseline base rate (18% fake). Higher bars indicate stronger predictive leverage.
             </p>
-            <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/50 text-amber-900 dark:text-amber-200 text-xs">
+            <div className="p-3 rounded-xl bg-tl-warning-bg border border-tl-warning/30 text-tl-warning text-xs">
               <strong>Important Note:</strong> SHAP values illustrate statistical model associations within the training corpus. They reflect patterns that machine learning classifiers prioritize, but <em>do not constitute legal or definitive proof of fraudulent intent</em>. Human moderator discretion remains essential.
             </div>
           </div>
@@ -343,8 +341,8 @@ export function ExplainabilityPage() {
       {/* 3. Filter Chips */}
       <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-slate-400" />
-          <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+          <Filter className="w-4 h-4 text-tl-muted" />
+          <span className="text-xs font-semibold text-tl-text">
             Domain Filter:
           </span>
         </div>
@@ -361,7 +359,7 @@ export function ExplainabilityPage() {
                 key={chip.id}
                 type="button"
                 onClick={() => setSelectedGroup(chip.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 shadow-soft-xs ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 shadow-sm ${
                   isSelected
                     ? chip.id === 'textual'
                       ? 'bg-blue-600 text-white shadow-blue-500/20'
@@ -369,14 +367,14 @@ export function ExplainabilityPage() {
                       ? 'bg-amber-600 text-white shadow-amber-500/20'
                       : chip.id === 'temporal'
                       ? 'bg-purple-600 text-white shadow-purple-500/20'
-                      : 'bg-indigo-600 text-white shadow-indigo-500/20'
-                    : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700'
+                      : 'bg-tl-accent text-white shadow-tl-accent/20'
+                    : 'bg-tl-card text-tl-muted hover:bg-tl-fill border border-tl-border'
                 }`}
               >
                 <span>{chip.label}</span>
                 <span
                   className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
-                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
+                    isSelected ? 'bg-white/20 text-white' : 'bg-tl-fill text-tl-muted'
                   }`}
                 >
                   {chip.count}
@@ -395,7 +393,7 @@ export function ExplainabilityPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                  <BrainCircuit className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                  <BrainCircuit className="w-5 h-5 text-tl-accent" />
                   Top Global Predictive Features (Mean |SHAP|)
                 </CardTitle>
                 <CardDescription className="text-xs">
@@ -449,18 +447,18 @@ export function ExplainabilityPage() {
             </div>
 
             {/* Chart Legend */}
-            <div className="flex flex-wrap items-center justify-center gap-5 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
+            <div className="flex flex-wrap items-center justify-center gap-5 pt-4 border-t border-tl-border text-xs">
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-blue-500" />
-                <span className="text-slate-600 dark:text-slate-400 font-medium">Textual</span>
+                <span className="text-tl-muted font-medium">Textual</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-amber-500" />
-                <span className="text-slate-600 dark:text-slate-400 font-medium">Behavioral</span>
+                <span className="text-tl-muted font-medium">Behavioral</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-purple-500" />
-                <span className="text-slate-600 dark:text-slate-400 font-medium">Temporal</span>
+                <span className="text-tl-muted font-medium">Temporal</span>
               </div>
             </div>
           </CardContent>
@@ -470,7 +468,7 @@ export function ExplainabilityPage() {
         <Card className="p-6 flex flex-col justify-between">
           <CardHeader className="px-0 pt-0 pb-4">
             <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-              <Layers className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+              <Layers className="w-5 h-5 text-tl-accent" />
               Domain Contribution
             </CardTitle>
             <CardDescription className="text-xs">
@@ -500,10 +498,10 @@ export function ExplainabilityPage() {
               </ResponsiveContainer>
               {/* Inner Center Label */}
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-2xl font-bold text-slate-900 dark:text-slate-100 font-mono">
+                <span className="text-2xl font-bold text-tl-text font-mono">
                   100%
                 </span>
-                <span className="text-[11px] text-slate-500 uppercase tracking-wider font-semibold">
+                <span className="text-[11px] text-tl-muted uppercase tracking-wider font-semibold">
                   3 Domains
                 </span>
               </div>
@@ -516,7 +514,7 @@ export function ExplainabilityPage() {
                 return (
                   <div
                     key={group.group}
-                    className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 flex items-center justify-between text-xs"
+                    className="p-3 rounded-xl bg-tl-fill border border-tl-border flex items-center justify-between text-xs"
                   >
                     <div className="flex items-center gap-2.5">
                       <div
@@ -526,15 +524,15 @@ export function ExplainabilityPage() {
                         <Icon className="w-4 h-4" />
                       </div>
                       <div>
-                        <p className="font-bold text-slate-800 dark:text-slate-200">
+                        <p className="font-bold text-tl-text">
                           {group.name}
                         </p>
-                        <p className="text-[10px] text-slate-500">
+                        <p className="text-[10px] text-tl-muted">
                           {group.featureCount} Key Features
                         </p>
                       </div>
                     </div>
-                    <span className="font-mono font-bold text-sm text-slate-900 dark:text-slate-100">
+                    <span className="font-mono font-bold text-sm text-tl-text">
                       {group.percentage}%
                     </span>
                   </div>
@@ -547,7 +545,7 @@ export function ExplainabilityPage() {
 
       {/* 5. Searchable Feature Glossary Table */}
       <Card className="p-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-tl-border">
           <div>
             <CardTitle className="text-base sm:text-lg">
               Feature Glossary & Technical Specifications
@@ -559,13 +557,13 @@ export function ExplainabilityPage() {
 
           {/* Search Box */}
           <div className="relative w-full sm:w-64">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-tl-muted absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search feature or keyword..."
               value={glossarySearch}
               onChange={(e) => setGlossarySearch(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-slate-100 placeholder-slate-400"
+              className="w-full pl-9 pr-3 py-2 text-xs rounded-[10px] bg-tl-fill border border-tl-border focus:outline-none focus:ring-2 focus:ring-tl-accent text-tl-text placeholder-tl-muted"
             />
           </div>
         </div>
@@ -574,10 +572,10 @@ export function ExplainabilityPage() {
         <div className="overflow-x-auto mt-4">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 font-semibold">
+              <tr className="border-b border-tl-border text-tl-muted font-semibold bg-tl-fill">
                 <th
                   onClick={() => toggleSort('rank')}
-                  className="py-3 px-3 cursor-pointer hover:text-slate-900 dark:hover:text-slate-200"
+                  className="py-3 px-3 cursor-pointer hover:text-tl-text"
                 >
                   <div className="flex items-center gap-1">
                     <span>Rank</span>
@@ -586,7 +584,7 @@ export function ExplainabilityPage() {
                 </th>
                 <th
                   onClick={() => toggleSort('displayName')}
-                  className="py-3 px-3 cursor-pointer hover:text-slate-900 dark:hover:text-slate-200"
+                  className="py-3 px-3 cursor-pointer hover:text-tl-text"
                 >
                   <div className="flex items-center gap-1">
                     <span>Feature Name</span>
@@ -596,7 +594,7 @@ export function ExplainabilityPage() {
                 <th className="py-3 px-3">Domain</th>
                 <th
                   onClick={() => toggleSort('mean_abs_shap')}
-                  className="py-3 px-3 cursor-pointer hover:text-slate-900 dark:hover:text-slate-200"
+                  className="py-3 px-3 cursor-pointer hover:text-tl-text"
                 >
                   <div className="flex items-center gap-1">
                     <span>Mean |SHAP|</span>
@@ -608,10 +606,10 @@ export function ExplainabilityPage() {
                 <th className="py-3 px-3 min-w-[280px]">Plain-English Description</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+            <tbody className="divide-y divide-tl-border">
               {glossaryFeatures.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="text-center py-8 text-slate-500">
+                  <td colSpan={7} className="text-center py-8 text-tl-muted">
                     No features match &quot;{glossarySearch}&quot;.
                   </td>
                 </tr>
@@ -627,14 +625,14 @@ export function ExplainabilityPage() {
                   return (
                     <tr
                       key={item.name}
-                      className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors"
+                      className="hover:bg-tl-fill/50 transition-colors"
                     >
-                      <td className="py-3 px-3 font-mono font-bold text-slate-700 dark:text-slate-300">
+                      <td className="py-3 px-3 font-mono font-bold text-tl-muted">
                         #{item.rank}
                       </td>
-                      <td className="py-3 px-3 font-semibold text-slate-900 dark:text-slate-100">
+                      <td className="py-3 px-3 font-semibold text-tl-text">
                         <div>{item.displayName || item.name}</div>
-                        <code className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">
+                        <code className="text-[10px] text-tl-muted font-mono">
                           {item.name}
                         </code>
                       </td>
@@ -643,26 +641,26 @@ export function ExplainabilityPage() {
                           {item.group}
                         </Badge>
                       </td>
-                      <td className="py-3 px-3 font-mono font-bold text-slate-900 dark:text-slate-100">
+                      <td className="py-3 px-3 font-mono font-bold text-tl-text">
                         {item.mean_abs_shap?.toFixed(3)}
                       </td>
                       <td className="py-3 px-3">
                         <span
                           className={`inline-flex px-2 py-0.5 rounded text-[10px] font-semibold ${
                             item.impact === 'High'
-                              ? 'bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300'
+                              ? 'bg-tl-fake-bg text-tl-fake'
                               : item.impact === 'Medium'
-                              ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
-                              : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                              ? 'bg-tl-warning-bg text-tl-warning'
+                              : 'bg-tl-fill text-tl-muted'
                           }`}
                         >
                           {item.impact}
                         </span>
                       </td>
-                      <td className="py-3 px-3 text-slate-600 dark:text-slate-400 text-xs font-medium">
+                      <td className="py-3 px-3 text-tl-muted text-xs font-medium">
                         {item.direction}
                       </td>
-                      <td className="py-3 px-3 text-slate-600 dark:text-slate-300 leading-snug">
+                      <td className="py-3 px-3 text-tl-muted leading-snug">
                         {item.description}
                       </td>
                     </tr>

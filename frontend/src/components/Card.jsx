@@ -6,23 +6,14 @@ export function Card({
   className,
   hoverable = false,
   bordered = true,
-  glow = null, // 'primary' | 'fake' | 'genuine' | null
   ...props
 }) {
-  const glowClasses = {
-    primary: 'hover:shadow-glow-primary hover:border-indigo-500/40',
-    fake: 'hover:shadow-glow-fake hover:border-rose-500/40',
-    genuine: 'hover:shadow-glow-genuine hover:border-emerald-500/40',
-  };
-
   return (
     <div
       className={cn(
-        'rounded-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100',
-        'shadow-soft-sm transition-all duration-200',
-        bordered && 'border border-slate-200/90 dark:border-slate-800/80',
-        hoverable && 'hover:shadow-soft-md hover:-translate-y-0.5',
-        glow && glowClasses[glow],
+        'rounded-[14px] bg-tl-card text-tl-text shadow-card',
+        bordered && 'border border-tl-border',
+        hoverable && 'motion-safe:hover:shadow-card-hover motion-safe:hover:-translate-y-0.5 transition-all duration-200 ease-out',
         className
       )}
       {...props}
@@ -36,7 +27,7 @@ export function CardHeader({ children, className, action, ...props }) {
   return (
     <div
       className={cn(
-        'flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800/70',
+        'flex items-center justify-between px-5 py-4 border-b border-tl-border',
         className
       )}
       {...props}
@@ -51,7 +42,7 @@ export function CardTitle({ children, className, ...props }) {
   return (
     <h3
       className={cn(
-        'text-base font-semibold leading-6 text-slate-900 dark:text-slate-50',
+        'text-base font-semibold leading-6 text-tl-text',
         className
       )}
       {...props}
@@ -65,7 +56,7 @@ export function CardDescription({ children, className, ...props }) {
   return (
     <p
       className={cn(
-        'text-sm text-slate-500 dark:text-slate-400',
+        'text-sm text-tl-muted',
         className
       )}
       {...props}
@@ -77,7 +68,7 @@ export function CardDescription({ children, className, ...props }) {
 
 export function CardContent({ children, className, ...props }) {
   return (
-    <div className={cn('p-6', className)} {...props}>
+    <div className={cn('p-5', className)} {...props}>
       {children}
     </div>
   );
@@ -87,7 +78,7 @@ export function CardFooter({ children, className, ...props }) {
   return (
     <div
       className={cn(
-        'flex items-center justify-between px-6 py-4 bg-slate-50/60 dark:bg-slate-950/40 border-t border-slate-100 dark:border-slate-800/70 rounded-b-xl',
+        'flex items-center justify-between px-5 py-3 bg-tl-fill border-t border-tl-border rounded-b-[14px]',
         className
       )}
       {...props}

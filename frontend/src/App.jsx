@@ -1,32 +1,19 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layout/MainLayout';
-import {
-  OverviewPage,
-  PredictPage,
-  ModelsPage,
-  ErrorsPage,
-  ExplainabilityPage,
-  PatternsPage,
-  BatchPage,
-  NotFoundPage,
-  DesignCheckPage,
-} from './pages';
+import DetectPage from './pages/DetectPage';
+import ExplainabilityPage from './pages/ExplainabilityPage';
+import ModelsPage from './pages/ModelsPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<OverviewPage />} />
-          <Route path="predict" element={<PredictPage />} />
-          <Route path="models" element={<ModelsPage />} />
-          <Route path="errors" element={<ErrorsPage />} />
+          <Route index element={<DetectPage />} />
           <Route path="explainability" element={<ExplainabilityPage />} />
-          <Route path="patterns" element={<PatternsPage />} />
-          <Route path="batch" element={<BatchPage />} />
-          <Route path="design-check" element={<DesignCheckPage />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="model" element={<ModelsPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
     </BrowserRouter>

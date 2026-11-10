@@ -3,29 +3,32 @@ import { cn } from '../utils/cn';
 import { getRiskLevel } from '../utils/formatters';
 
 export function Gauge({
-  value = 0, // 0 to 1 or 0 to 100
+  value = 0,
   label = 'Fake Probability',
   sublabel,
   size = 220,
   showBadge = true,
   className,
 }) {
-  // Normalize value between 0 and 1
   const normalized = Math.min(Math.max(value > 1 ? value / 100 : value, 0), 1);
   const percentage = Math.round(normalized * 100);
   const risk = getRiskLevel(normalized);
 
-  // SVG semi-circle geometry
   const radius = 80;
   const strokeWidth = 14;
-  const circumference = Math.PI * radius; // Half-circle arc length ~ 251.327
+  const circumference = Math.PI * radius;
   const strokeDashoffset = circumference - normalized * circumference;
 
-  // Determine active color stroke based on risk
   const getStrokeColor = () => {
-    if (normalized >= 0.7) return '#f43f5e'; // rose-500 (fake)
-    if (normalized >= 0.4) return '#f59e0b'; // amber-500 (suspicious)
-    return '#10b981'; // emerald-500 (genuine)
+    if (normalized >= 0.7) return '#E05A5A';
+    if (normalized >= 0.4) return '#E8A838';
+    return '#2FAE7A';
+  };
+
+  const getRiskDotColor = () => {
+    if (risk.variant === 'fake') return '#E05A5A';
+    if (risk.variant === 'warning') return '#E8A838';
+    return '#2FAE7A';
   };
 
   return (
@@ -44,13 +47,12 @@ export function Gauge({
           className="w-full h-full overflow-visible"
         >
           <defs>
-            {/* Linear gradient along the arc */}
             <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#10b981" />   {/* Genuine emerald */}
-              <stop offset="50%" stopColor="#f59e0b" />  {/* Warning amber */}
-              <stop offset="100%" stopColor="#f43f5e" /> {/* Fake rose */}
+              <stop offset="0%" stopColor="#2FAE7A" />
+              <stop offset="50%" stopColor="#E8A838" />
+              <stop offset="100%" stopColor="#E05A5A" />
             </linearGradient>
-            
+
             <filter id="gaugeShadow" x="-10%" y="-10%" width="120%" height="120%">
               <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.15" />
             </filter>
@@ -60,10 +62,9 @@ export function Gauge({
           <path
             d="M 20 100 A 80 80 0 0 1 180 100"
             fill="none"
-            stroke="currentColor"
+            stroke="#E6ECF5"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
-            className="text-slate-100 dark:text-slate-800"
           />
 
           {/* Colored / Progress Arc */}
@@ -75,12 +76,12 @@ export function Gauge({
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
-            className="transition-all duration-700 ease-out"
+            className="motion-safe:transition-all duration-700 ease-out"
           />
 
           {/* Indicator Dot at current progress point */}
           {(() => {
-            const angle = Math.PI * (1 - normalized); // from PI to 0
+            const angle = Math.PI * (1 - normalized);
             const cx = 100 - radius * Math.cos(angle);
             const cy = 100 - radius * Math.sin(angle);
             return (
@@ -92,7 +93,7 @@ export function Gauge({
                 stroke="#ffffff"
                 strokeWidth="2.5"
                 filter="url(#gaugeShadow)"
-                className="transition-all duration-700 ease-out dark:stroke-slate-900"
+                className="motion-safe:transition-all duration-700 ease-out"
               />
             );
           })()}
@@ -106,7 +107,7 @@ export function Gauge({
           >
             {normalized >= 0.5 ? 'FAKE' : 'REAL'}
           </span>
-          <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+          <span className="text-[11px] font-medium text-tl-muted mt-0.5">
             {percentage}% {label}
           </span>
         </div>
@@ -117,24 +118,19 @@ export function Gauge({
         <div className="mt-3 flex flex-col items-center gap-1.5">
           <span
             className={cn(
-              'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border',
+              'inline-flex items-center gap-1.5 px-3 py-1 rounded-[10px] text-xs font-semibold',
               risk.textColor,
-              risk.bgColor,
-              risk.borderColor
+              risk.bgColor
             )}
           >
             <span
-              className={cn(
-                'w-2 h-2 rounded-full animate-pulse',
-                risk.variant === 'fake' && 'bg-rose-500',
-                risk.variant === 'warning' && 'bg-amber-500',
-                risk.variant === 'genuine' && 'bg-emerald-500'
-              )}
+              className="w-2 h-2 rounded-full animate-pulse"
+              style={{ backgroundColor: getRiskDotColor() }}
             />
             {risk.label}
           </span>
           {sublabel && (
-            <span className="text-xs text-slate-400 dark:text-slate-500 text-center">
+            <span className="text-xs text-tl-muted text-center">
               {sublabel}
             </span>
           )}
