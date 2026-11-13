@@ -1,9 +1,25 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { ShieldCheck, Search, LogOut } from 'lucide-react';
+import {
+  ShieldCheck,
+  LayoutDashboard,
+  Search,
+  Upload,
+  BrainCircuit,
+  BarChart2,
+  GitCompare,
+  Info,
+  LogOut,
+} from 'lucide-react';
 
 const menuItems = [
-  { to: '/', label: 'Detect', icon: Search },
+  { to: '/',              label: 'Dashboard',       icon: LayoutDashboard, end: true },
+  { to: '/detect',        label: 'Detect Review',   icon: Search,          end: false },
+  { to: '/bulk',          label: 'Bulk Detection',  icon: Upload,          end: false },
+  { to: '/explainability',label: 'Explainable AI',  icon: BrainCircuit,    end: false },
+  { to: '/reports',       label: 'Reports',         icon: BarChart2,       end: false },
+  { to: '/models',        label: 'Model Comparison',icon: GitCompare,      end: false },
+  { to: '/about',         label: 'About Project',   icon: Info,            end: false },
 ];
 
 function LogoMark({ size = 28 }) {
@@ -28,11 +44,11 @@ function LogoMark({ size = 28 }) {
   );
 }
 
-function SidebarNavLink({ to, label, icon: Icon }) {
+function SidebarNavLink({ to, label, icon: Icon, end }) {
   return (
     <NavLink
       to={to}
-      end={to === '/'}
+      end={end}
       className={({ isActive }) =>
         [
           'flex items-center gap-3 px-4 py-2.5 rounded-[10px] text-sm font-medium',
@@ -49,11 +65,11 @@ function SidebarNavLink({ to, label, icon: Icon }) {
   );
 }
 
-function SidebarNavLinkMobile({ to, icon: Icon }) {
+function SidebarNavLinkMobile({ to, icon: Icon, end }) {
   return (
     <NavLink
       to={to}
-      end={to === '/'}
+      end={end}
       className={({ isActive }) =>
         [
           'flex items-center justify-center w-10 h-10 rounded-[10px]',
@@ -93,12 +109,10 @@ function UserInfo() {
 
 function LogoutButton() {
   const navigate = useNavigate();
-
   const handleLogout = () => {
     localStorage.removeItem('tl_auth');
     navigate('/login', { replace: true });
   };
-
   return (
     <button
       onClick={handleLogout}
@@ -112,12 +126,10 @@ function LogoutButton() {
 
 function LogoutButtonMobile() {
   const navigate = useNavigate();
-
   const handleLogout = () => {
     localStorage.removeItem('tl_auth');
     navigate('/login', { replace: true });
   };
-
   return (
     <button
       onClick={handleLogout}
@@ -133,24 +145,22 @@ export default function Sidebar() {
   return (
     <>
       {/* ── Desktop Sidebar ── */}
-      <aside
-        className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-[220px] bg-tl-card border-r border-tl-border z-30"
-      >
+      <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-[220px] bg-tl-card border-r border-tl-border z-30">
         {/* Logo */}
-        <div className="flex items-center gap-2.5 px-5 py-6">
+        <div className="flex items-center gap-2.5 px-5 py-5">
           <LogoMark size={28} />
           <span className="text-lg font-bold text-tl-text tracking-tight">TrustLens</span>
         </div>
 
         {/* Navigation */}
-        <nav className="flex flex-col gap-1 px-3 mt-2 flex-1">
+        <nav className="flex flex-col gap-0.5 px-3 mt-1 flex-1 overflow-y-auto">
           {menuItems.map((item) => (
             <SidebarNavLink key={item.to} {...item} />
           ))}
         </nav>
 
         {/* User Info & Logout */}
-        <div className="px-3 pb-2 space-y-1">
+        <div className="px-3 pb-2 space-y-1 border-t border-tl-border pt-2">
           <UserInfo />
           <LogoutButton />
         </div>
@@ -160,9 +170,7 @@ export default function Sidebar() {
       </aside>
 
       {/* ── Mobile Top Bar ── */}
-      <header
-        className="flex md:hidden items-center justify-between px-4 py-3 bg-tl-card border-b border-tl-border sticky top-0 z-30"
-      >
+      <header className="flex md:hidden items-center justify-between px-4 py-3 bg-tl-card border-b border-tl-border sticky top-0 z-30">
         {/* Logo */}
         <div className="flex items-center gap-2">
           <LogoMark size={24} />
@@ -170,9 +178,9 @@ export default function Sidebar() {
         </div>
 
         {/* Icon-only nav links + Logout */}
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-center gap-1 overflow-x-auto">
           {menuItems.map((item) => (
-            <SidebarNavLinkMobile key={item.to} to={item.to} icon={item.icon} />
+            <SidebarNavLinkMobile key={item.to} to={item.to} icon={item.icon} end={item.end} />
           ))}
           <LogoutButtonMobile />
         </nav>
