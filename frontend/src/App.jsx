@@ -16,6 +16,7 @@ function RequireAuth({ children }) {
   if (!auth.loggedIn) {
     return <Navigate to="/login" replace />;
   }
+  
   return children;
 }
 

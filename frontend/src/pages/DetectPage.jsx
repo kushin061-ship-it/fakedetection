@@ -1,14 +1,4 @@
-import React, { useState, useId } from 'react';
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Cell,
-} from 'recharts';
+﻿import React, { useState, useId } from 'react';
 import {
   Sparkles,
   Star,
@@ -72,7 +62,7 @@ const EXAMPLES = [
   },
 ];
 
-// Feature group styling utilities — TrustLens light-only
+// Feature group styling utilities â€” TrustLens light-only
 const GROUP_COLORS = {
   textual: {
     bg: 'bg-blue-50',
@@ -98,100 +88,65 @@ const GROUP_COLORS = {
 };
 
 /**
- * Plain-English insight generator from top 3 SHAP features
+ * User-friendly plain-English explanation generator
  */
 function generatePlainEnglishSummary(result) {
   if (!result || !result.top_shap_features) return null;
 
-  const top3 = result.top_shap_features.slice(0, 3);
   const isFake = result.label === 'fake';
   const prob = Math.round(result.fake_probability * 100);
+  const features = result.top_shap_features || [];
 
-  const points = top3.map((feat) => {
-    const isPushFake = feat.direction === 'pushes_fake';
-    const directionPhrase = isPushFake ? 'pushes score toward fake' : 'supports genuine authenticity';
+  // Map feature names â†’ user-friendly descriptions
+  const featureDescriptions = {
+    exclamation_count: (v) => `Uses ${v} exclamation marks â€” excessive punctuation is a common sign of exaggerated, fake reviews.`,
+    extreme_rating_ratio: (v) => `The rating (${v} stars) is extremely high or low â€” fake reviews often use extreme ratings to manipulate scores.`,
+    review_length: (v) => `The review is very short (${v} words) â€” brief, generic reviews are frequently associated with spam or bots.`,
+    sentiment_polarity: (v) => `The language is unusually ${parseFloat(v) > 0 ? 'positive' : 'negative'} (score: ${v}) â€” real reviews tend to be more balanced.`,
+    same_day_review_count: (v) => `The reviewer posted ${v} review${v !== 1 ? 's' : ''} in a single day â€” high posting frequency in a short time is suspicious.`,
+    verified_purchase: (v) => `This review is ${v === 1 || v === '1' ? 'from a verified purchase' : 'NOT from a verified purchase'} â€” unverified reviews carry higher fake risk.`,
+    all_caps_ratio: (v) => `${Math.round(v * 100)}% of the text is in CAPS â€” heavy capitalization is used to grab attention artificially.`,
+    burst_indicator: (v) => `This review was posted during a suspicious review burst (indicator: ${v}) â€” many fake reviews appear together.`,
+    lexical_diversity: (v) => `The vocabulary variety is ${parseFloat(v) < 0.5 ? 'low' : 'high'} (${v}) â€” ${parseFloat(v) < 0.5 ? 'repetitive word patterns suggest templated or bot-generated text' : 'rich vocabulary supports authenticity'}.`,
+    word_count: (v) => `The review contains only ${v} words â€” very short reviews often lack the detail expected from a genuine buyer.`,
+    char_count: (v) => `Review length of ${v} characters is ${parseInt(v) < 100 ? 'very short â€” genuine reviews are usually more detailed' : 'within normal range'}.`,
+    uppercase_word_density: (v) => `${Math.round(v * 100)}% of words are fully capitalized â€” this level of emphasis is unusual in genuine reviews.`,
+    review_word_count: (v) => `Only ${v} words used â€” genuine reviews typically include more specific product details.`,
+    sentiment_extremity: (v) => `Extreme sentiment score of ${v} detected â€” real reviews rarely express such one-sided opinions.`,
+  };
 
-    switch (feat.feature) {
-      case 'exclamation_count':
-        return `Punctuation frequency of ${feat.value} ${directionPhrase} via emotional exaggeration.`;
-      case 'extreme_rating_ratio':
-        return `Rating of ${feat.value} ${directionPhrase}, aligning with polar manipulation curves.`;
-      case 'review_length':
-        return `Review brevity (${feat.value}) ${directionPhrase}, matching boilerplate templates.`;
-      case 'sentiment_polarity':
-        return `Sentiment extremity (${feat.value}) ${directionPhrase} without balanced nuance.`;
-      case 'same_day_review_count':
-        return `Author publishing velocity (${feat.value}) ${directionPhrase} in a single calendar day.`;
-      case 'verified_purchase':
-        return `Checkout status (${feat.value}) ${directionPhrase} for authenticated purchase tracking.`;
-      case 'all_caps_ratio':
-        return `Capitalized text density (${feat.value}) ${directionPhrase} through all-caps emphasis.`;
-      case 'burst_indicator':
-        return `Temporal correlation (${feat.value}) ${directionPhrase} against platform volume surges.`;
-      case 'lexical_diversity':
-        return `Vocabulary variety (${feat.value}) ${directionPhrase} across unique lexical tokens.`;
-      default:
-        return `${feat.displayName} (${feat.value}) ${directionPhrase} (+${feat.shap_value} SHAP).`;
-    }
+  // Build explanation points from top features
+  const fakePushers = features.filter(f => f.direction === 'pushes_fake').slice(0, 3);
+  const genuinePushers = features.filter(f => f.direction === 'pushes_genuine').slice(0, 2);
+
+  const fakePoints = fakePushers.map(feat => {
+    const descFn = featureDescriptions[feat.feature];
+    return descFn ? descFn(feat.value) : `"${feat.displayName}" (${feat.value}) raised suspicion of a fake review.`;
+  });
+
+  const genuinePoints = genuinePushers.map(feat => {
+    const descFn = featureDescriptions[feat.feature];
+    return descFn ? descFn(feat.value) : `"${feat.displayName}" (${feat.value}) supports that this review is genuine.`;
   });
 
   return {
+    isFake,
+    prob,
     headline: isFake
-      ? `Model flagged this review as Fake (${prob}% probability) driven by primary signals:`
-      : `Model classified this review as Genuine (${100 - prob}% confidence) driven by primary signals:`,
-    points,
+      ? `âš ï¸ This review appears to be FAKE with ${prob}% probability`
+      : `âœ… This review appears to be GENUINE with ${100 - prob}% confidence`,
+    summary: isFake
+      ? `The AI model detected multiple signals commonly found in fake or bot-generated reviews. Here's what raised the red flags:`
+      : `The AI model found this review to be authentic. Here's what supported this conclusion:`,
+    fakePoints,
+    genuinePoints,
+    hasCounterSignals: isFake && genuinePoints.length > 0,
   };
 }
 
 /**
- * Custom Tooltip for SHAP horizontal bar chart — TrustLens light-only
+ * Custom Tooltip for SHAP horizontal bar chart â€” TrustLens light-only
  */
-function ShapTooltip({ active, payload }) {
-  if (active && payload && payload.length) {
-    const data = payload[0].payload;
-    const isPushFake = data.direction === 'pushes_fake';
-    const groupStyle = GROUP_COLORS[data.group] || GROUP_COLORS.textual;
-
-    return (
-      <div className="bg-tl-card/95 backdrop-blur-sm border border-tl-border p-3 rounded-[14px] shadow-card text-xs space-y-1.5 min-w-[200px]">
-        <div className="flex items-center justify-between gap-2 border-b border-tl-border pb-1">
-          <span className="font-semibold text-tl-text truncate">
-            {data.displayName}
-          </span>
-          <span
-            className={`inline-flex items-center px-1.5 py-0.5 rounded-[10px] text-[10px] font-semibold ${groupStyle.bg} ${groupStyle.text}`}
-          >
-            {groupStyle.label}
-          </span>
-        </div>
-        <div className="flex items-center justify-between text-tl-muted">
-          <span>Observed Input:</span>
-          <span className="font-mono font-medium text-tl-text">
-            {data.value}
-          </span>
-        </div>
-        <div className="flex items-center justify-between text-tl-muted">
-          <span>SHAP Impact:</span>
-          <span className="font-mono font-bold text-tl-text">
-            +{data.shap_value}
-          </span>
-        </div>
-        <div className="flex items-center justify-between text-tl-muted pt-0.5">
-          <span>Direction:</span>
-          <span
-            className={`font-semibold ${
-              isPushFake ? 'text-tl-fake' : 'text-tl-genuine'
-            }`}
-          >
-            {isPushFake ? 'Pushes toward Fake' : 'Pushes toward Genuine'}
-          </span>
-        </div>
-      </div>
-    );
-  }
-  return null;
-}
-
 export function DetectPage() {
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(5);
@@ -206,10 +161,6 @@ export function DetectPage() {
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
 
   const formId = useId();
-
-  // Light-mode chart tokens (TrustLens)
-  const gridColor = '#E6ECF5';
-  const axisColor = '#6B7A93';
 
   // Character & word count calculations
   const charCount = reviewText.length;
@@ -287,12 +238,6 @@ export function DetectPage() {
     setResult(item.result);
     setValidationError('');
   };
-
-  // Format data for Recharts horizontal bar chart (reversed so Rank 1 is on top)
-  const shapChartData = React.useMemo(() => {
-    if (!result?.top_shap_features) return [];
-    return [...result.top_shap_features].reverse();
-  }, [result]);
 
   const summaryInsights = React.useMemo(() => {
     return generatePlainEnglishSummary(result);
@@ -594,7 +539,7 @@ export function DetectPage() {
                     <div>
                       <span className="font-bold">Low-confidence prediction.</span> Manual verification recommended.
                       <span className="block text-xs text-tl-warning/80 mt-0.5">
-                        Score falls within the boundary threshold (0.40–0.60 probability).
+                        Score falls within the boundary threshold (0.40â€“0.60 probability).
                       </span>
                     </div>
                   </div>
@@ -621,147 +566,70 @@ export function DetectPage() {
                 </div>
               </Card>
 
-              {/* Horizontal SHAP Bar Chart Card */}
-              <Card className="p-5 sm:p-6 space-y-4">
-                <CardHeader className="p-0 pb-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                  <div>
-                    <CardTitle>Top 10 SHAP Feature Contributions</CardTitle>
-                    <CardDescription>
-                      Impact magnitude and directional force driving the model outcome
-                    </CardDescription>
-                  </div>
-
-                  {/* Direction Legend */}
-                  <div className="flex items-center gap-3 text-xs shrink-0">
-                    <span className="inline-flex items-center gap-1 text-tl-fake font-semibold">
-                      <span className="w-2.5 h-2.5 rounded-full bg-tl-fake" /> Pushes Fake
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-tl-genuine font-semibold">
-                      <span className="w-2.5 h-2.5 rounded-full bg-tl-genuine" /> Pushes Genuine
-                    </span>
-                  </div>
-                </CardHeader>
-
-                {/* Recharts Horizontal Bar Chart */}
-                <CardContent className="p-0 pt-2">
-                  <div className="h-80 w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart
-                        layout="vertical"
-                        data={shapChartData}
-                        margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke={gridColor} />
-                        <XAxis
-                          type="number"
-                          stroke={axisColor}
-                          fontSize={11}
-                          tickLine={false}
-                          domain={[0, 'auto']}
-                        />
-                        <YAxis
-                          type="category"
-                          dataKey="displayName"
-                          stroke={axisColor}
-                          fontSize={11}
-                          tickLine={false}
-                          width={140}
-                        />
-                        <Tooltip content={<ShapTooltip />} />
-                        <Bar dataKey="shap_value" radius={[0, 4, 4, 0]}>
-                          {shapChartData.map((entry, index) => (
-                            <Cell
-                              key={`shap-cell-${index}`}
-                              fill={entry.direction === 'pushes_fake' ? '#E05A5A' : '#2FAE7A'}
-                            />
-                          ))}
-                        </Bar>
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-
-                  {/* Feature Group Badges List with Small Colored Tag Next to Each Feature Name */}
-                  <div className="mt-4 pt-3 border-t border-tl-border space-y-2">
-                    <div className="flex items-center justify-between text-xs text-tl-muted font-semibold mb-2">
-                      <span>Feature Breakdown &amp; Domain Categories:</span>
-                      <div className="flex items-center gap-2 text-[10px]">
-                        <span className="inline-flex items-center gap-1">
-                          <span className="w-2 h-2 rounded-full bg-blue-500" /> Textual
-                        </span>
-                        <span className="inline-flex items-center gap-1">
-                          <span className="w-2 h-2 rounded-full bg-amber-500" /> Behavioral
-                        </span>
-                        <span className="inline-flex items-center gap-1">
-                          <span className="w-2 h-2 rounded-full bg-purple-500" /> Temporal
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {result.top_shap_features.map((feat) => {
-                        const isPushFake = feat.direction === 'pushes_fake';
-                        const groupStyle = GROUP_COLORS[feat.group] || GROUP_COLORS.textual;
-
-                        return (
-                          <div
-                            key={feat.feature}
-                            className="flex items-center justify-between p-2 rounded-[10px] border border-tl-border bg-tl-fill text-xs"
-                          >
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              {/* Small colored tag next to feature name */}
-                              <span
-                                className={`px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0 ${groupStyle.bg} ${groupStyle.text}`}
-                              >
-                                {groupStyle.label}
-                              </span>
-                              <span className="font-medium text-tl-text truncate">
-                                {feat.displayName}
-                              </span>
-                            </div>
-
-                            <div className="flex items-center gap-2 shrink-0 ml-2">
-                              <span className="font-mono text-[11px] text-tl-muted">
-                                {feat.value}
-                              </span>
-                              <span
-                                className={`font-mono font-bold text-[11px] px-1.5 py-0.5 rounded ${
-                                  isPushFake
-                                    ? 'bg-tl-fake-bg text-tl-fake'
-                                    : 'bg-tl-genuine-bg text-tl-genuine'
-                                }`}
-                              >
-                                {isPushFake ? '+' : '-'}{feat.shap_value}
-                              </span>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Plain-English "Why this prediction?" Summary Card */}
+              {/* Plain-English "Why this prediction?" Explanation Card */}
               {summaryInsights && (
-                <Card className="p-5 space-y-3 border-l-4 border-l-tl-accent">
-                  <div className="flex items-center gap-2">
-                    <Info className="w-4 h-4 text-tl-accent" />
-                    <h3 className="text-sm font-bold text-tl-text">
-                      Why this prediction?
-                    </h3>
+                <Card className={`p-5 space-y-4 border-l-4 ${summaryInsights.isFake ? 'border-l-tl-fake' : 'border-l-tl-genuine'}`}>
+                  {/* Headline */}
+                  <div className="flex items-start gap-3">
+                    <div className={`p-2 rounded-xl shrink-0 ${summaryInsights.isFake ? 'bg-tl-fake-bg' : 'bg-tl-genuine-bg'}`}>
+                      {summaryInsights.isFake
+                        ? <ShieldAlert className="w-5 h-5 text-tl-fake" />
+                        : <ShieldCheck className="w-5 h-5 text-tl-genuine" />}
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-tl-text">What does this result mean?</h3>
+                      <p className={`text-sm font-semibold mt-0.5 ${summaryInsights.isFake ? 'text-tl-fake' : 'text-tl-genuine'}`}>
+                        {summaryInsights.headline}
+                      </p>
+                    </div>
                   </div>
 
-                  <p className="text-xs sm:text-sm font-medium text-tl-text">
-                    {summaryInsights.headline}
+                  {/* Summary sentence */}
+                  <p className="text-sm text-tl-text leading-relaxed">
+                    {summaryInsights.summary}
                   </p>
 
-                  <ul className="space-y-2 text-xs sm:text-sm text-tl-muted list-disc pl-5">
-                    {summaryInsights.points.map((pt, i) => (
-                      <li key={i} className="leading-relaxed">
-                        {pt}
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Red flags (fake signals) */}
+                  {summaryInsights.fakePoints.length > 0 && (
+                    <div className="space-y-2">
+                      {summaryInsights.isFake && (
+                        <p className="text-xs font-bold text-tl-fake uppercase tracking-wide">ðŸš© Red Flags Detected</p>
+                      )}
+                      <ul className="space-y-2">
+                        {summaryInsights.fakePoints.map((pt, i) => (
+                          <li key={i} className="flex items-start gap-2.5 text-sm text-tl-text leading-relaxed bg-tl-fake-bg/50 rounded-[10px] px-3 py-2.5">
+                            <span className="text-tl-fake font-bold shrink-0 mt-0.5">âœ—</span>
+                            <span>{pt}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Supporting genuine signals */}
+                  {summaryInsights.genuinePoints.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-xs font-bold text-tl-genuine uppercase tracking-wide">
+                        {summaryInsights.hasCounterSignals ? 'âœ… Some Genuine Signals Were Also Found' : 'âœ… Genuine Signals'}
+                      </p>
+                      <ul className="space-y-2">
+                        {summaryInsights.genuinePoints.map((pt, i) => (
+                          <li key={i} className="flex items-start gap-2.5 text-sm text-tl-text leading-relaxed bg-tl-genuine-bg/50 rounded-[10px] px-3 py-2.5">
+                            <span className="text-tl-genuine font-bold shrink-0 mt-0.5">âœ“</span>
+                            <span>{pt}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* What to do */}
+                  <div className={`rounded-[10px] p-3 text-xs text-tl-text leading-relaxed ${summaryInsights.isFake ? 'bg-tl-warning-bg border border-tl-warning/20' : 'bg-tl-genuine-bg border border-tl-genuine/20'}`}>
+                    <span className="font-bold">ðŸ’¡ What should you do? </span>
+                    {summaryInsights.isFake
+                      ? 'This review shows strong indicators of being fake. We recommend not relying on it for purchase decisions. Consider reporting it to the platform.'
+                      : 'This review appears to be authentic. The reviewer\'s writing style and behaviour match genuine purchase patterns.'}
+                  </div>
                 </Card>
               )}
 
@@ -814,7 +682,7 @@ export function DetectPage() {
                           {item.timestamp}
                         </span>
                         <span className="text-xs font-semibold text-amber-500">
-                          {'★'.repeat(item.input.rating)}
+                          {'â˜…'.repeat(item.input.rating)}
                         </span>
                         {item.input.reviewerId && (
                           <span className="text-[11px] text-tl-muted font-mono">

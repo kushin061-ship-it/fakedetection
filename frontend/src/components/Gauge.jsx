@@ -79,22 +79,66 @@ export function Gauge({
             className="motion-safe:transition-all duration-700 ease-out"
           />
 
-          {/* Indicator Dot at current progress point */}
+          {/* Arc end labels: 0% left, 100% right */}
+          <text x="14" y="115" fontSize="9" fill="#6B7A93" textAnchor="middle" fontWeight="600">0%</text>
+          <text x="186" y="115" fontSize="9" fill="#6B7A93" textAnchor="middle" fontWeight="600">100%</text>
+          <text x="100" y="22" fontSize="9" fill="#6B7A93" textAnchor="middle" fontWeight="600">50%</text>
+
+          {/* Percentage label above needle tip */}
           {(() => {
-            const angle = Math.PI * (1 - normalized);
-            const cx = 100 - radius * Math.cos(angle);
-            const cy = 100 - radius * Math.sin(angle);
+            const angle = Math.PI - normalized * Math.PI;
+            const labelR = radius + 16;
+            const lx = 100 + labelR * Math.cos(angle);
+            const ly = 100 - labelR * Math.sin(angle);
             return (
-              <circle
-                cx={cx}
-                cy={cy}
-                r="7"
+              <text
+                x={lx} y={ly}
+                fontSize="10"
                 fill={getStrokeColor()}
-                stroke="#ffffff"
-                strokeWidth="2.5"
-                filter="url(#gaugeShadow)"
-                className="motion-safe:transition-all duration-700 ease-out"
-              />
+                textAnchor="middle"
+                fontWeight="800"
+                dominantBaseline="middle"
+              >
+                {percentage}%
+              </text>
+            );
+          })()}
+
+          {/* Needle pointer at exact percentage position */}
+          {(() => {
+            // Arc goes from left (20,100) at 0% → top (100,20) at 50% → right (180,100) at 100%
+            // Angle 0 = left side (π radians from positive x-axis), angle π = right side
+            // So: angle = π - normalized * π  →  left at 0%, right at 100%
+            const angle = Math.PI - normalized * Math.PI;
+            const dotCx = 100 + radius * Math.cos(angle);
+            const dotCy = 100 - radius * Math.sin(angle);
+            // Needle line from center (100,100) to the dot
+            const needleLen = radius - strokeWidth / 2 - 2;
+            const nx = 100 + needleLen * Math.cos(angle);
+            const ny = 100 - needleLen * Math.sin(angle);
+            return (
+              <g className="motion-safe:transition-all duration-700 ease-out">
+                {/* Needle line */}
+                <line
+                  x1="100" y1="100"
+                  x2={nx} y2={ny}
+                  stroke={getStrokeColor()}
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+                {/* Center pivot */}
+                <circle cx="100" cy="100" r="5" fill={getStrokeColor()} stroke="#ffffff" strokeWidth="2" />
+                {/* Tip dot */}
+                <circle
+                  cx={dotCx}
+                  cy={dotCy}
+                  r="6"
+                  fill={getStrokeColor()}
+                  stroke="#ffffff"
+                  strokeWidth="2.5"
+                  filter="url(#gaugeShadow)"
+                />
+              </g>
             );
           })()}
         </svg>
