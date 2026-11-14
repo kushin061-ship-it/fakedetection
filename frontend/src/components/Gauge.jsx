@@ -31,6 +31,17 @@ export function Gauge({
     return '#2FAE7A';
   };
 
+  // Exact pointer dot coordinates on the semicircular arc:
+  // Arc starts at left (x = 20, y = 100) for 0%
+  // Arc reaches top (x = 100, y = 20) for 50%
+  // Arc reaches right (x = 180, y = 100) for 100%
+  // Center is (100, 100), radius is 80.
+  // Angle from left baseline: normalized * Math.PI
+  // cx = 100 - radius * cos(normalized * Math.PI)
+  // cy = 100 - radius * sin(normalized * Math.PI)
+  const pointerCx = 100 - radius * Math.cos(normalized * Math.PI);
+  const pointerCy = 100 - radius * Math.sin(normalized * Math.PI);
+
   return (
     <div
       className={cn(
@@ -53,8 +64,8 @@ export function Gauge({
               <stop offset="100%" stopColor="#E05A5A" />
             </linearGradient>
 
-            <filter id="gaugeShadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.15" />
+            <filter id="gaugeShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2.5" floodOpacity="0.25" />
             </filter>
           </defs>
 
@@ -79,68 +90,21 @@ export function Gauge({
             className="motion-safe:transition-all duration-700 ease-out"
           />
 
-          {/* Arc end labels: 0% left, 100% right */}
-          <text x="14" y="115" fontSize="9" fill="#6B7A93" textAnchor="middle" fontWeight="600">0%</text>
-          <text x="186" y="115" fontSize="9" fill="#6B7A93" textAnchor="middle" fontWeight="600">100%</text>
-          <text x="100" y="22" fontSize="9" fill="#6B7A93" textAnchor="middle" fontWeight="600">50%</text>
+          {/* Semicircular Track End Ticks */}
+          <text x="16" y="116" fontSize="9" fill="#94A3B8" textAnchor="middle" fontWeight="600">0%</text>
+          <text x="184" y="116" fontSize="9" fill="#94A3B8" textAnchor="middle" fontWeight="600">100%</text>
 
-          {/* Percentage label above needle tip */}
-          {(() => {
-            const angle = Math.PI - normalized * Math.PI;
-            const labelR = radius + 16;
-            const lx = 100 + labelR * Math.cos(angle);
-            const ly = 100 - labelR * Math.sin(angle);
-            return (
-              <text
-                x={lx} y={ly}
-                fontSize="10"
-                fill={getStrokeColor()}
-                textAnchor="middle"
-                fontWeight="800"
-                dominantBaseline="middle"
-              >
-                {percentage}%
-              </text>
-            );
-          })()}
-
-          {/* Needle pointer at exact percentage position */}
-          {(() => {
-            // Arc goes from left (20,100) at 0% → top (100,20) at 50% → right (180,100) at 100%
-            // Angle 0 = left side (π radians from positive x-axis), angle π = right side
-            // So: angle = π - normalized * π  →  left at 0%, right at 100%
-            const angle = Math.PI - normalized * Math.PI;
-            const dotCx = 100 + radius * Math.cos(angle);
-            const dotCy = 100 - radius * Math.sin(angle);
-            // Needle line from center (100,100) to the dot
-            const needleLen = radius - strokeWidth / 2 - 2;
-            const nx = 100 + needleLen * Math.cos(angle);
-            const ny = 100 - needleLen * Math.sin(angle);
-            return (
-              <g className="motion-safe:transition-all duration-700 ease-out">
-                {/* Needle line */}
-                <line
-                  x1="100" y1="100"
-                  x2={nx} y2={ny}
-                  stroke={getStrokeColor()}
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                {/* Center pivot */}
-                <circle cx="100" cy="100" r="5" fill={getStrokeColor()} stroke="#ffffff" strokeWidth="2" />
-                {/* Tip dot */}
-                <circle
-                  cx={dotCx}
-                  cy={dotCy}
-                  r="6"
-                  fill={getStrokeColor()}
-                  stroke="#ffffff"
-                  strokeWidth="2.5"
-                  filter="url(#gaugeShadow)"
-                />
-              </g>
-            );
-          })()}
+          {/* Pointer Indicator Dot at Exact Percentage Position */}
+          <circle
+            cx={pointerCx}
+            cy={pointerCy}
+            r="8"
+            fill={getStrokeColor()}
+            stroke="#ffffff"
+            strokeWidth="3"
+            filter="url(#gaugeShadow)"
+            className="motion-safe:transition-all duration-700 ease-out"
+          />
         </svg>
 
         {/* Center Text Stats */}
